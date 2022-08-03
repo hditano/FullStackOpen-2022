@@ -29,8 +29,8 @@ const Statistics = ({good, neutral, bad}) => {
 
 const StatisticsLine = ({text, value}) => {
   return (
-    <>
-      <p>{text}: {value}</p>
+    <> 
+      <p>{text}: {value} {text === 'Positive' ? '%' : ''}</p>
     </>
   )
 }
