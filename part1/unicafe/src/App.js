@@ -12,13 +12,17 @@ const Statistics = ({good, neutral, bad}) => {
   if(good || neutral || bad) {
   return (
     <>
-      <h2>Statistics</h2>
-      <StatisticsLine text='Good' value={good}/>
-      <StatisticsLine text='Neutral' value={neutral}/>
-      <StatisticsLine text='Bad' value={bad}/>
-      <StatisticsLine text='All' value={good + neutral + bad}/>
-      <StatisticsLine text='Average' value={(good + neutral + bad) / good + neutral + bad}/>
-      <StatisticsLine text='Positive' value={good / (good + neutral + bad) * 100}/>
+      <table>
+        <tbody>
+            <h2>Statistics</h2>
+            <tr><StatisticsLine text='Good' value={good}/></tr>
+            <tr><StatisticsLine text='Neutral' value={neutral}/></tr>
+            <tr><StatisticsLine text='Bad' value={bad}/></tr>
+            <tr><StatisticsLine text='All' value={good + neutral + bad}/></tr>
+            <tr><StatisticsLine text='Average' value={(good + neutral + bad) / good + neutral + bad}/></tr>
+            <tr><StatisticsLine text='Positive' value={good / (good + neutral + bad) * 100}/></tr>
+            </tbody>
+      </table>
     </>
   )
   }
@@ -29,8 +33,8 @@ const Statistics = ({good, neutral, bad}) => {
 
 const StatisticsLine = ({text, value}) => {
   return (
-    <> 
-      <p>{text}: {value} {text === 'Positive' ? '%' : ''}</p>
+    <>
+    <td><p>{text}: {value} {text === 'Positive' ? '%' : ''}</p></td>
     </>
   )
 }
