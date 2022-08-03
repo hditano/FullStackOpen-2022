@@ -14,7 +14,7 @@ const App = () => {
 
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0))
-
+  const [likable, setLikable] = useState(0);
 
   function handleVotes() {
     let copy_votes = [
@@ -22,9 +22,11 @@ const App = () => {
     ]
 
     copy_votes[selected] += 1;
-    setVotes(copy_votes);
+    setVotes(copy_votes)
+    setLikable(copy_votes.indexOf(Math.max(...copy_votes)))
   }
 
+  console.log(likable)
   console.log(votes)
 
 
@@ -34,6 +36,9 @@ const App = () => {
       <br></br>
       <Button randomQuote={() => setSelected(Math.floor(Math.random() * anecdotes.length))}/>
       <ButtonVote votes={handleVotes}/>
+      <h3>Anecdote with most votes</h3>
+      <p>{votes === false ? 'no votes yet' :  anecdotes[likable]}</p>
+      <p>Vote Count: {votes[likable]}</p>
     </div>
   )
 }
