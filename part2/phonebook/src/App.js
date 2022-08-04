@@ -14,13 +14,23 @@ const handleChange = (e) => {
 }
 
 const submitNote = (e) => {
-  e.preventDefault();
-  const newNote = {
-    name: newName
-  }
 
-  setPersons(persons.concat(newNote))
-  setNewName('');
+  for(let i = 0; i < persons.length; i++) {
+    if(persons[i].name === newName){
+
+      alert(`${newName} is already added to phonebook`)
+
+    } else {
+
+      e.preventDefault();
+      const newNote = {
+        name: newName
+      }
+    
+      setPersons(persons.concat(newNote))
+      setNewName('');
+    } 
+  }
 }
 
   return (
