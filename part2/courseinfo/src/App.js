@@ -1,11 +1,16 @@
 const Header = ({ course }) => <h1>{course.name}</h1>
 
-const Total = ({ sum }) => <p>Number of exercises {sum}</p>
 
-const Part = ({ part }) => 
-  <p>
-    {part.name} {part.exercises}
-  </p>
+// Will calculate total exercises.
+const total = (data) => {
+  return data.parts.reduce((sum, list) => {
+    return sum + list.exercises;
+  }, 0)
+}
+
+// Renders total of exercises, and passes data received as a prop to function total with data argument.
+const RenderTotal = ({data}) => <p>Total of Exercises: {total(data)} </p>
+
 
 const Course = ({data}) => {
   return data.parts.map((ele) => {
@@ -41,6 +46,7 @@ const App = () => {
       <>
         <Header course={course} />
         <Course key={course} data={course} />
+        <RenderTotal data={course} />
       </>
   )
 }
