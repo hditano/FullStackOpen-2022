@@ -1,11 +1,11 @@
-const FilterForm = ({newName, newNumber, submitNote, handleChangeName, handleChangeNumber}) => {
+const FilterForm = ({addNote, valueName, valueNumber, changeNumber, changeName}) => {
     return (
-        <form onSubmit={submitNote}>
+        <form onSubmit={addNote}>
             <div>
                 <h2>Add a new</h2>
-                name: <input value={newName} onChange={handleChangeName}/>
+                name: <input value={valueName} onChange={changeName} />
                 <br></br>
-                number: <input value={newNumber} onChange={handleChangeNumber}/>
+                number: <input value={valueNumber} onChange={changeNumber}/>
             </div>
             <div>
                 <button type="submit">add</button>
