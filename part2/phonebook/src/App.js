@@ -1,20 +1,7 @@
 import { useState } from 'react'
-
-const Filter = ({data, filterInput}) => {
-  
-  return data.filter(ele => {
-    return ele.name.toLowerCase().includes(filterInput)
-  }).map(ele => {
-    return (
-      <>
-        <p>{ele.name} || {ele.number}</p>
-      </>
-    )
-  })
-  
-  
-
-}
+import Filter from './components/Filter'
+import Form from './components/Form'
+import FilterForm from './components/FilterForm'
   
 
 const App = () => {
@@ -80,19 +67,8 @@ const submitNote = (e) => {
   return (
     <div>
       <h2>Phonebook</h2>
-      Filter shown with : <input value={newFilter} onChange={handleFilter}/>
-      <div>debug: {newFilter}</div>
-      <form onSubmit={submitNote}>
-        <div>
-          <h2>Add a new</h2>
-          name: <input value={newName} onChange={handleChangeName}/>
-          <br></br>
-          number: <input value={newNumber} onChange={handleChangeNumber}/>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <FilterForm valueFilter={newFilter} changeFilter={handleFilter}/>
+      <Form valueName={newName} valueNumber={newNumber} changeName={handleChangeName} changeNumber={handleChangeNumber} submitNote={submitNote}/>
       <h2>Numbers</h2>
       <Filter filterInput={newFilter} data={searchFilter}/>
     </div>
