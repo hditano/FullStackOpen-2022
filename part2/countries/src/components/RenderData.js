@@ -18,7 +18,11 @@ const RenderData = ({DataCountries, searchCountries}) => {
                 <p>Area: {ele.area}</p>
                 <h3>Languages</h3>
                 <ul>
-                    <li>{}</li>
+                    {Object.values(ele.languages).map(ele => {
+                        return (
+                            <li>{ele}</li>
+                        )
+                    })}
                 </ul>
                 <img src={ele.flags.png} alt='flag'></img>
             </>
