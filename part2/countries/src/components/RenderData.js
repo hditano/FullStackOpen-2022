@@ -9,10 +9,12 @@ const RenderData = ({DataCountries, searchCountries}) => {
         )
     })
 
-    const fullInfoCountry = DataCountries.filter(ele => {
+  
+    const fullInfoCountry = ( )=> DataCountries.filter(ele => {
         return ele.name.common.toLowerCase().includes(searchCountries)
     }).map(ele => {
         return (
+            
             <>
                 <p key={ele.cca3}>Capital: {ele.capital}</p>
                 <p>Area: {ele.area}</p>
@@ -25,9 +27,12 @@ const RenderData = ({DataCountries, searchCountries}) => {
                     })}
                 </ul>
                 <img src={ele.flags.png} alt='flag'></img>
+    
             </>
+            
         )
     })
+
 
     const filterSearch = () => {
         if(search.length === 1 || (search.length <= 10  && search.length > 1)) {
@@ -43,7 +48,7 @@ const RenderData = ({DataCountries, searchCountries}) => {
     return (
         <>
             {searchCountries ? filterSearch() : ''}
-            {search.length === 1 ? fullInfoCountry : ''}
+            {search.length === 1 && fullInfoCountry()}
         </>
     )
 }
