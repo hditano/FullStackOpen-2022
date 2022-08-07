@@ -1,4 +1,4 @@
-const RenderData = ({showInfo, DataCountries, handleInfo, searchCountries}) => {
+const RenderData = ({weather, showInfo, DataCountries, handleInfo, searchCountries}) => {
 
 
     const search = DataCountries.filter(ele => {
@@ -29,7 +29,13 @@ const RenderData = ({showInfo, DataCountries, handleInfo, searchCountries}) => {
                         )
                     })}
                 </ul>
-                <img src={ele.flags.png} alt='flag'></img>  
+                <img src={ele.flags.png} alt='flag'></img>
+
+                <h3>Weather in: {ele.capital}</h3>
+                <h4>Temperature: {Object.values(weather).map(ele => ele.temp)}</h4>
+                <img src="" alt="weather img"/>
+                <h4>Wind: {Object.values(weather).map(ele => ele.speed)} m/s</h4>
+                {}
             </>
 
         )

@@ -2,7 +2,7 @@ import axios from 'axios';
 import {useEffect, useState} from 'react';
 import Form from './components/Form';
 import RenderData from './components/RenderData'
-import WeatherAPI from './components/WeatherAPI';
+
 
 
 const App = () => {
@@ -35,8 +35,6 @@ const App = () => {
 
   const handleInfo = (e) => {
     e.preventDefault();
-    console.log('clicked')
-    console.log(showInfo)
     setShowInfo(!showInfo);
   }
 
@@ -45,8 +43,7 @@ const App = () => {
     <div>
       <h1>Test</h1>
       <Form handleCountry={handleCountry} searchCountries={searchCountries}/>
-      <RenderData showInfo={showInfo} handleInfo={handleInfo} DataCountries={DataCountries} searchCountries={searchCountries}/>
-      <WeatherAPI weather={weather}/>
+      <RenderData weather={weather} showInfo={showInfo} handleInfo={handleInfo} DataCountries={DataCountries} searchCountries={searchCountries}/>
     </div>
   )
 }
