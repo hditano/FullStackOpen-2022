@@ -6,6 +6,9 @@ import axios from 'axios';
   
 
 const App = () => {
+
+  const urlPost = 'http://localhost:3001/persons';
+
   const [persons, setPersons] = useState([])
 
   const [newName, setNewName] = useState('')
@@ -62,6 +65,11 @@ const submitNote = (e) => {
       setNewNumber('');
       return;
     }
+
+    axios.post(`${urlPost}`, newNote)
+      .then((response) => {
+        console.log(response)
+      })
 
       setPersons(persons.concat(newNote))
       setSearchFilter(persons.concat(newNote));
