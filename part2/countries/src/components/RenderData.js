@@ -1,11 +1,14 @@
-const RenderData = ({DataCountries, searchCountries}) => {
+const RenderData = ({showInfo, DataCountries, handleInfo, searchCountries}) => {
 
 
     const search = DataCountries.filter(ele => {
         return ele.name.common.toLowerCase().includes(searchCountries)
     }).map(ele => {
         return (
-            <p key={ele.cca3}>{ele.name.common}</p>
+            <>
+                <h2 key={ele.cca3}>{ele.name.common}</h2>
+                <button onClick={handleInfo}>show full info</button>
+            </>
         )
     })
 
@@ -14,8 +17,8 @@ const RenderData = ({DataCountries, searchCountries}) => {
         return ele.name.common.toLowerCase().includes(searchCountries)
     }).map(ele => {
         return (
-            
-            <>
+
+            <>         
                 <p key={ele.cca3}>Capital: {ele.capital}</p>
                 <p>Area: {ele.area}</p>
                 <h3>Languages</h3>
@@ -26,10 +29,9 @@ const RenderData = ({DataCountries, searchCountries}) => {
                         )
                     })}
                 </ul>
-                <img src={ele.flags.png} alt='flag'></img>
-    
+                <img src={ele.flags.png} alt='flag'></img>  
             </>
-            
+
         )
     })
 
@@ -46,9 +48,12 @@ const RenderData = ({DataCountries, searchCountries}) => {
 
 
     return (
-        <>
+        <>  
+
             {searchCountries ? filterSearch() : ''}
-            {search.length === 1 && fullInfoCountry()}
+            
+            {showInfo && (search.length === 1 && fullInfoCountry())}
+
         </>
     )
 }
