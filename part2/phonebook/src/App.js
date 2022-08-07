@@ -1,32 +1,26 @@
-import { useEffect, useState } from 'react'
-import Filter from './components/Filter'
-import Form from './components/Form'
-import FilterForm from './components/FilterForm'
-import axios from 'axios';
+import { useEffect, useState } from 'react';
+import RenderData from './components/RenderData';
+import Form from './components/Form';
+import FilterForm from './components/FilterForm';
+import ServerData from './services/ServerData';
+
   
 
 const App = () => {
 
-  const urlPost = 'http://localhost:3001/persons';
 
   const [persons, setPersons] = useState([])
 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
-  const [searchFilter, setSearchFilter] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3001/persons')
-         .then((response) => {
-          setPersons(response.data)
-          setSearchFilter(response.data)
-         })
+    ServerData.getPerson()
+      .then((response) =>{
+        setPersons(response.data)
+      })
   }, [])
-
-  useEffect(() => {
-    console.log('')
-  }, [persons])
 
 
 const handleChangeName = (e) => {
@@ -50,36 +44,27 @@ const submitNote = (e) => {
 
   e.preventDefault();
 
-  for(let i = 0; i < persons.length; i++) {
   
     const newNote = {
       name: newName,
       number: newNumber
     }
 
-    const equalityName = (ele) => ele.name === newName;
 
-    if(persons.some(equalityName)) {
-      alert(`${newName} is already added to phonebook`)
-      setNewName('');
-      setNewNumber('');
-      return;
-    }
-
-    axios.post(`${urlPost}`, newNote)
+    ServerData.createPerson(newNote)
       .then((response) => {
-        console.log(response)
+          setPersons(persons.concat(response.data))
+          setNewName('');
+          setNewNumber('');
+    
       })
+      // setPersons(persons.concat(newNote))
+      // setSearchFilter(persons.concat(newNote));
+      // setNewName('');
+      // setNewNumber('');
 
-      setPersons(persons.concat(newNote))
-      setSearchFilter(persons.concat(newNote));
-      setNewName('');
-      setNewNumber('');
-
-    }
   }
 
-  console.log(newName)
 
 
   return (
@@ -88,7 +73,7 @@ const submitNote = (e) => {
       <FilterForm valueFilter={newFilter} changeFilter={handleFilter}/>
       <Form  valueName={newName} valueNumber={newNumber} changeName={handleChangeName} changeNumber={handleChangeNumber} addNote={submitNote}/>
       <h2>Numbers</h2>
-      <Filter filterInput={newFilter} data={searchFilter}/>
+      <RenderData filterInput={newFilter} data={persons}/>
     </div>
   )
 }

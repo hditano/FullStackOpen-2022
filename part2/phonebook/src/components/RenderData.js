@@ -1,5 +1,7 @@
-const Filter = ({data, filterInput}) => {
+const RenderData = ({data, filterInput}) => {
   
+  console.log(data.map(ele => ele))
+
     return data.filter(ele => {
       return ele.name.toLowerCase().includes(filterInput)
     }).map(ele => {
@@ -14,4 +16,4 @@ const Filter = ({data, filterInput}) => {
   
   }
 
-  export default Filter
+  export default RenderData
