@@ -67,22 +67,29 @@ app.get('/info', (request, response) => {
 app.post('/api/persons', (request, response) => {
     const body = request.body;
 
-    if(!body.name) {
+    const getduplicated = data.filter(ele => ele.name === body.name)
+
+
+    if(!body.name || !body.number) {
         return response.status(400).json({
-            error: 'name missing'
+            error: 'name or number missing'
+        })
+    }
+    if(getduplicated) {
+        return response.status(400).json({
+            error: 'name is duplicated'
         })
     }
 
     const person = {
         id: generateID(),
         name: body.name,
-        number: body.number
+        number: body.number,
     }
 
-    persons = data.concat(person);
-    console.log(persons)
+    data = data.concat(person);
 
-    response.json(persons);
+    response.json(person);
 })
 
 
