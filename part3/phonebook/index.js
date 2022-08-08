@@ -48,6 +48,13 @@ app.get('/api/persons/:id', (request, response) => {
 
 })
 
+app.delete('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id);
+    const person = data.find(ele => ele.id !== id);
+
+    response.status(204).end();
+})
+
 app.get('/info', (request, response) => {
     let getDate = new Date(Date.now());
 
