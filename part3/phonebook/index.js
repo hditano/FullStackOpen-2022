@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+app.use(express.json());
 
 let data = [
     { 
@@ -62,6 +63,34 @@ app.get('/info', (request, response) => {
 
     response.send(responseInfo)
 })
+
+app.post('/api/persons', (request, response) => {
+    const body = request.body;
+
+    if(!body.name) {
+        return response.status(400).json({
+            error: 'name missing'
+        })
+    }
+
+    const person = {
+        id: generateID(),
+        name: body.name,
+        number: body.number
+    }
+
+    persons = data.concat(person);
+    console.log(persons)
+
+    response.json(persons);
+})
+
+
+
+const generateID = () => {
+    const maxID = data.length > 0 ? Math.max(...data.map(ele => ele.id)) : 0;
+    return maxID + 1; 
+}
 
 const PORT = 3001;
 
