@@ -6,9 +6,23 @@ import ServerData from './services/ServerData';
 
 import FindService from './services/FindInfoPerson';
 
+
   
 
 const App = () => {
+
+  const style = {
+    backgroundColor: 'lightGrey',
+    width: 800,
+    height: 100,
+    fontSize: 30,
+    display: 'flex',
+    margin: 20,
+    justifyContent: 'center',
+    borderRadius: 20,
+    color: 'green'
+
+  }
 
 
   const [persons, setPersons] = useState([])
@@ -16,6 +30,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMesagge] = useState('');
 
   useEffect(() => {
     ServerData.getPerson()
@@ -52,8 +68,10 @@ const deletePerson = (id) => {
     .then(() => {
       const newlist = persons.filter(ele => ele.id !== id)
       setPersons(newlist);
-     }
-    )
+     })
+     .catch(error => {
+      showMessageError(`cannot delete ${personToDel.name} with error ${error}`)
+     })
 
     updateList()
   }
@@ -91,6 +109,10 @@ const updatePerson = (checkPerson) => {
         setNewName('');
         setNewNumber('')
       })
+      .catch(error => {
+        showMessageError(`${checkPerson} with ${error} we were not able to update it`);
+      })
+      updateList()
   }
   
 }
@@ -122,15 +144,38 @@ const submitNote = (e) => {
           setNewNumber('');
     
       })
+      .catch(error => {
+        showMessageError(`Error ${error} we were no able to add new person`);
+      })
+      .finally(() => {
+        showMessageSucc('Person Added')
+      })
 
   }
 }
 
+const showMessageError = (message) => {
+  setErrorMessage(message);
+  setTimeout(() => {
+    setErrorMessage(null)
+  }, 5000)
+}
+
+const showMessageSucc = (message) => {
+  setErrorMessage(message);
+  setTimeout(() => {
+    setErrorMessage(null)
+  }, 5000)
+}
 
 
   return (
     <div>
       <h2>Phonebook</h2>
+      <div style={style}>
+        <p>{errorMessage}</p>
+        <p>{successMessage}</p>
+      </div>
       <FilterForm valueFilter={newFilter} changeFilter={handleFilter}/>
       <Form  valueName={newName} valueNumber={newNumber} changeName={handleChangeName} changeNumber={handleChangeNumber} addNote={submitNote}/>
       <h2>Numbers</h2>
