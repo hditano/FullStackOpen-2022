@@ -23,6 +23,8 @@ const App = () => {
   }, [])
 
 
+  // event handlers
+
 const handleChangeName = (e) => {
   e.preventDefault();
   setNewName(e.target.value)
@@ -36,9 +38,37 @@ const handleChangeNumber = (e) => {
 const handleFilter = (e) => {
   e.preventDefault();
   setNewFilter(e.target.value);
-
 }
 
+
+// delete handler
+
+const deletePerson = (id) => {
+  const personToDel = persons.find(person => person.id === id)
+  if(window.confirm(`Do you want to delete ${personToDel.name}`)) {
+  ServerData.deletePerson(id)
+    .then(() => {
+      const newlist = persons.filter(ele => ele.id !== id)
+      setPersons(newlist);
+     }
+    )
+
+    updateList()
+  }
+}
+
+
+// update list function to force-rerendering after delete
+
+const updateList = () => {
+  ServerData.getPerson()
+  .then(response => {
+   setPersons(response.data)
+  })
+}
+
+
+// submit person function
 
 const submitNote = (e) => {
 
@@ -58,10 +88,6 @@ const submitNote = (e) => {
           setNewNumber('');
     
       })
-      // setPersons(persons.concat(newNote))
-      // setSearchFilter(persons.concat(newNote));
-      // setNewName('');
-      // setNewNumber('');
 
   }
 
@@ -73,7 +99,7 @@ const submitNote = (e) => {
       <FilterForm valueFilter={newFilter} changeFilter={handleFilter}/>
       <Form  valueName={newName} valueNumber={newNumber} changeName={handleChangeName} changeNumber={handleChangeNumber} addNote={submitNote}/>
       <h2>Numbers</h2>
-      <RenderData filterInput={newFilter} data={persons}/>
+      <RenderData deletePerson={deletePerson} filterInput={newFilter} data={persons}/>
     </div>
   )
 }
