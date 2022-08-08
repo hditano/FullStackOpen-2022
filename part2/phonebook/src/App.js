@@ -4,6 +4,8 @@ import Form from './components/Form';
 import FilterForm from './components/FilterForm';
 import ServerData from './services/ServerData';
 
+import FindService from './services/FindInfoPerson';
+
   
 
 const App = () => {
@@ -67,6 +69,32 @@ const updateList = () => {
   })
 }
 
+// update person
+
+const updatePerson = (checkPerson) => {
+
+  if(checkPerson) {
+    window.confirm(`${checkPerson.name} already exists on the phonebook. Do you want to change the number?`)
+
+    const getID = FindService.FindID(checkPerson.name, persons)
+
+    const updatePerson = {
+      ...checkPerson,
+      number: newNumber
+    }
+
+
+    ServerData.editPerson(getID, updatePerson)
+      .then((response) => {
+        const newList = persons.map(ele => ele.id !== getID ? checkPerson : response.data);
+        setPersons(newList);
+        setNewName('');
+        setNewNumber('')
+      })
+  }
+  
+}
+
 
 // submit person function
 
@@ -74,7 +102,13 @@ const submitNote = (e) => {
 
   e.preventDefault();
 
-  
+  const checkPerson = persons.find(ele => ele.name === newName);
+
+  if(checkPerson) {
+    updatePerson(checkPerson)
+  } else {
+
+
     const newNote = {
       name: newName,
       number: newNumber
@@ -90,6 +124,7 @@ const submitNote = (e) => {
       })
 
   }
+}
 
 
 
@@ -103,5 +138,6 @@ const submitNote = (e) => {
     </div>
   )
 }
+
 
 export default App
