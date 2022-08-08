@@ -35,6 +35,19 @@ app.get('/api/persons', (request, response) => {
     response.json(data)
 })
 
+
+app.get('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id);
+    const person = data.find(ele => ele.id === id);
+
+    if(person) {
+        response.json(person);
+    } else {
+        response.status(404).end();
+    }
+
+})
+
 app.get('/info', (request, response) => {
     let getDate = new Date(Date.now());
 
