@@ -1,6 +1,14 @@
 const express = require('express');
 const app = express();
+const morgan = require('morgan');
+
 app.use(express.json());
+
+app.use(morgan(':method :url :status :response-time ms - :res[content-length] :body'))
+
+morgan.token('body', res => {
+    return JSON.stringify(res.body)
+  })
 
 let data = [
     { 
@@ -100,6 +108,7 @@ const generateID = () => {
 }
 
 const PORT = 3001;
+
 
 app.listen(PORT, () => {
     console.log(`Server running on PORT ${PORT}`)
