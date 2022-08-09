@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-if(process.argv.length < 3) {
+if (process.argv.length < 3) {
     console.log('add last argv as expected (entry to create');
     process.exit(1);
 }
@@ -21,27 +21,27 @@ const person = mongoose.model('phonebook', PhonebookSchema);
 mongoose
     .connect(URL)
     .then((result) => {
+
         console.log('connected');
 
-        const myPhonebook = new person({
-            name: process.argv[3],
-            number: process.argv[4]
-        })
+            if(process.argv.length > 3) {
+                const myPhonebook = new person({
+                    name: process.argv[3],
+                    number: process.argv[4]
+                })
+                console.log(`Added ${process.argv[3]} number ${process.argv[4]} to phonebook`);
+                return myPhonebook.save()
+            }
 
-        return myPhonebook.save()
-    })
-    .then((result) => {
-
-        if(process.argv.length <= 3) {
-            person.find({})
-                .then((result) => {
+            if(process.argv.length < 4) {
+                person.find({}).then((result) => {
+                    console.log('phonebook: ')
                     result.map(ele => {
-                        console.log('phonebook: ' + ele.name, ele.number)
+                        console.log(`${ele.name} ${ele.number}`)
                     })
                 })
-        } else {
-            console.log(`Added ${process.argv[3]} number ${process.argv[4]} to phonebook`);
-        }
-
-        return mongoose.connection.close();
-    })
+            }
+        })
+        .then((result) => {
+            mongoose.connection.close();
+        })
