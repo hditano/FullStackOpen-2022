@@ -66,6 +66,8 @@ app.put('/id/persons/:id', (req, res) => {
     Note.findByIdAndUpdate(req.params.id, {$set: newPhonebook}, {new: true}, (err, data) => {
         if(!err) {
             res.status(200).json(data)
+        } else {
+            console.log(err)
         }
     })
 })

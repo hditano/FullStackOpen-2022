@@ -20,8 +20,8 @@ const noteSchema = new mongoose.Schema({
   },
   number: {
     type: String,
-    minLength: 3,
-    required: true
+    minLength: 8,
+    required: true,
   },
   number: String
 })
