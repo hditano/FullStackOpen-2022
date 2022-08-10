@@ -28,6 +28,31 @@ app.get('/id/persons', (req, res) => {
     Note.find({}).then((data) => res.json(data))
 })
 
+app.get('/id/persons/:id', (req,res, next) => {
+    Note.findById(req.params.id)
+    .then((data) => {
+        if(data) {
+            res.json(data)
+        } else {
+            res.status(404).end();
+        }
+    })
+    .catch(error => next(error))
+})
+
+app.delete('/id/persons/:id', (req,res, next) => {
+    Note.findByIdAndRemove(req.params.id)
+    .then((data) => {
+        if(data) {
+            res.json(data)
+        } else {
+            res.status(404).end();
+        }
+    })
+    .catch(error => next(error))
+})
+
+
 app.post('/id/persons', (req, res) => {
     const note = new Note({
         name: req.body.name,
@@ -37,6 +62,13 @@ app.post('/id/persons', (req, res) => {
     note.save().then((data) => res.json(data));
 })
 
+const errorHandler = (error, req, res, next) => {
+    console.log(error.message);
+    if(error.name === 'CastError') {
+        return res.status(400).send({error: 'malformatted id'})
+    }
+}
 
+app.use(errorHandler);
 
 // Mongoose
