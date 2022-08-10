@@ -7,6 +7,7 @@ const {
     default: mongoose
 } = require('mongoose');
 const { request } = require('express');
+const { db } = require('./models/person');
 
 
 const app = express();
@@ -27,6 +28,7 @@ app.listen(PORT, () => {
 
 app.get('/id/persons', (req, res) => {
     Note.find({}).then((data) => res.json(data))
+    console.log(db.collection('notes').find({"name": "Hernan"}))
 })
 
 app.get('/id/persons/:id', (req,res, next) => {
@@ -94,8 +96,8 @@ const errorHandler = (error, req, res, next) => {
 
     if(error.name === 'CastError') {
         return res.status(400).send({error: 'malformation id'})
-    } else {
-        return res.status(400).send({error: 'unknown error'})
+    } else if (error.name === 'ValidationError'){
+        return res.status(400).json({error: error.message})
     }
 }
 

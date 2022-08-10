@@ -13,9 +13,17 @@ mongoose.connect(process.env.MONGODB_URI)
     })
 
 const noteSchema = new mongoose.Schema({
-  name: String,
-  number: String,
-  id: String
+  name: {
+    type: String,
+    minLength: 3,
+    required: true
+  },
+  number: {
+    type: String,
+    minLength: 3,
+    required: true
+  },
+  number: String
 })
 
 noteSchema.set('toJSON', {
