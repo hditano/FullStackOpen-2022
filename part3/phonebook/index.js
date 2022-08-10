@@ -6,6 +6,7 @@ const Note = require('./models/person');
 const {
     default: mongoose
 } = require('mongoose');
+const { request } = require('express');
 
 
 const app = express();
@@ -52,20 +53,49 @@ app.delete('/id/persons/:id', (req,res, next) => {
     .catch(error => next(error))
 })
 
-
-app.post('/id/persons', (req, res) => {
-    const note = new Note({
+app.put('/id/persons/:id', (req, res) => {
+    const newPhonebook = {
         name: req.body.name,
-        number: req.body.number,
-    })
+        number: req.body.number
+    };
 
-    note.save().then((data) => res.json(data));
+    
+
+    Note.findByIdAndUpdate(req.params.id, {$set: newPhonebook}, {new: true}, (err, data) => {
+        if(!err) {
+            res.status(200).json(data)
+        }
+    })
 })
 
+
+app.post('/id/persons', (req, res, next) => {
+    const phonebooks = new Note({
+        name: req.body.name,
+        number: req.body.number,
+        id: req.body.id
+    })
+    phonebooks.save()
+    .then((data) => {
+        if(data) {
+            res.json(data)
+        } else {
+            res.status(404).end();
+        }
+    })
+    .catch(error => next(error))
+})
+
+
+
+    
+
 const errorHandler = (error, req, res, next) => {
-    console.log(error.message);
+
     if(error.name === 'CastError') {
-        return res.status(400).send({error: 'malformatted id'})
+        return res.status(400).send({error: 'malformation id'})
+    } else {
+        return res.status(400).send({error: 'unknown error'})
     }
 }
 
