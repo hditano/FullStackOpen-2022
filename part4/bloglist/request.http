@@ -1,0 +1,44 @@
+###
+
+GET http://localhost:3003/ 
+Content-Type: application/json
+
+###
+
+POST http://localhost:3003/api/blogs HTTP/1.1
+Content-Type: application/json
+
+{
+   "title": "Gime",
+   "author": "Gimena Rios",
+   "url": "http://www.gimenarios.com",
+   "likes": 23
+}
+
+### GET BLOG ID
+GET http://localhost:3003/api/blogs/62f5309caafb1284673776b1 HTTP/1.1
+Content-Type: application/json
+
+### GET ALL
+
+GET http://localhost:3003/api/blogs/ HTTP/1.1
+Content-Type: application/json
+
+### DELETE POST ID
+
+DELETE http://localhost:3003/api/blogs/62f52ea74a5866a21717e725 HTTP/1.1
+Content-Type: application/json
+
+### PUT by ID
+
+PUT http://localhost:3003/api/blogs/62f5309caafb1284673776b1 HTTP/1.1
+Content-Type: application/json
+
+{
+   "title": "Gime",
+   "author": "Gimena Rios",
+   "url": "http://www.gimenarios.com",
+   "likes": 23
+}
+
+
