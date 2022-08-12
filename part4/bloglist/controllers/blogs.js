@@ -1,29 +1,26 @@
 const express = require('express');
 const BlogSchema = require('../models/blog');
 
-const router = express.Router();
 
+const getBlog = (req, res) => {
+        BlogSchema
+            .find({})
+            .then((data) => {
+                res.json(data)
+            })
+            .catch(error => console.log(`Error: ${error.message}`))
+    };
 
-
-router.get('/blog', (req, res) => {
-    BlogSchema
-        .find({})
-        .then((data) => {
-            res.json(data)
-        })
-        .catch(error => console.log(`Error: ${error.message}`))
-})
-
-router.get('/blog/:id', (req, res) => {
+const getBlogID = (req, res) => {
     BlogSchema
         .findById(req.params.id)
         .then((data) => {
             res.status(200).json(data)
         })
         .catch(error => console.log(`Error: ${error.message}`))
-})
+};
 
-router.post('/blog', (req, res) => {
+const postBlog = (req, res) => {
     const newBlog = BlogSchema(req.body);
 
     newBlog
@@ -33,18 +30,18 @@ router.post('/blog', (req, res) => {
         })
         .catch(error => console.log(`Error: ${error.message}`))
         
-    })
+    };
 
-router.delete('/blog/:id', (req, res) => {
+const deleteBlog = (req, res) => {
     BlogSchema
         .findByIdAndRemove(req.params.id)
         .then((data) => {
             res.status(200).json(data)
         })
         .catch(error => console.log(`Error: ${error.message}`));
-})
+    };
 
-router.put('/blog/:id', (req, res) => {
+const putBlog = (req, res) => {
     const {title, author, url, likes} = req.body
 
     BlogSchema
@@ -53,8 +50,15 @@ router.put('/blog/:id', (req, res) => {
             res.status(200).json(data)
         })
         .catch(error => console.log(`Error: ${error.message}`))
-})
+    };
 
 
+const blogController = {
+    getBlog,
+    getBlogID,
+    postBlog,
+    deleteBlog,
+    putBlog
+};
 
-module.exports = router;
+module.exports = blogController;
