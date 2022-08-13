@@ -13,12 +13,12 @@ describe('HTTP GET API Request Test', () =>    {
 
     })
 
-    test('expect returns on how many items are on the API', async () => {
-        const response = await api.get('/api/blog');
+    // test('expect returns on how many items are on the API', async () => {
+    //     const response = await api.get('/api/blog');
 
 
-        expect(response.body).toHaveLength(response.length);
-    })
+    //     expect(response.body).toHaveLength(response.length);
+    // })
 
 })
 
