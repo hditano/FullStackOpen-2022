@@ -34,8 +34,12 @@ describe('blogs testing', () => {
 
 
         const result = listHelper.favoriteBlog(blogs);
-        console.log(result)
         expect(result).toEqual(toEqual);
+    })
+
+    test('returns the author who has the largest amount of blogs', () => {
+        
+        expect(listHelper.mostBlogs(blogs)).toBe("Edsger W. Dijkstra")
     })
 
 })

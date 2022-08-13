@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 const dummy = (blogs) => {
     return blogs.length;
   }
@@ -15,7 +17,15 @@ const favoriteBlog = (blog) => {
 }
 
 const mostBlogs = (blog) => {
-    return console.log('test');
+    let authorLikes = blog.reduce((op, {author, likes}) => {
+        op[author] = op[author] || 0
+        op[author] += likes
+        return op
+      },{})
+
+    let result = Object.values(authorLikes).forEach(ele => ele);
+
+    return console.log(typeof(result));
 }
 
   module.exports = {

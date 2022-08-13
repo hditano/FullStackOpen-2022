@@ -2,55 +2,55 @@ const express = require('express');
 const BlogSchema = require('../models/blog');
 
 
-const getBlog = (req, res) => {
-        BlogSchema
-            .find({})
-            .then((data) => {
-                res.json(data)
-            })
-            .catch(error => console.log(`Error: ${error.message}`))
-    };
-
-const getBlogID = (req, res) => {
-    BlogSchema
-        .findById(req.params.id)
-        .then((data) => {
-            res.status(200).json(data)
-        })
-        .catch(error => console.log(`Error: ${error.message}`))
+const getBlog =  async (req, res) => {
+    try {
+        const blog = await BlogSchema.find({});
+        res.json(blog);
+    } catch (error) {
+        console.log(`Error: ${error.message}`);
+    }
 };
 
-const postBlog = (req, res) => {
-    const newBlog = BlogSchema(req.body);
+const getBlogID = async (req, res) => {
+    try {
+        const blog = await BlogSchema.findById(req.params.id);
+        res.status(200).json(blog);
+    } catch (error) {
+        console.log(`Error: ${error.message}`);
+    }
 
-    newBlog
-        .save()
-        .then((data) => {
-            res.status(200).json(data)
-        })
-        .catch(error => console.log(`Error: ${error.message}`))
-        
-    };
+};
 
-const deleteBlog = (req, res) => {
-    BlogSchema
-        .findByIdAndRemove(req.params.id)
-        .then((data) => {
-            res.status(200).json(data)
-        })
-        .catch(error => console.log(`Error: ${error.message}`));
-    };
+const postBlog = async (req, res) => {
+    
+    try {
+        const blog = await BlogSchema(req.body).save();
+        res.status(200).json(blog);
+    } catch (error) {
+        console.log(`Error: ${error.message}`);
+    }
 
-const putBlog = (req, res) => {
-    const {title, author, url, likes} = req.body
+};
 
-    BlogSchema
-        .findByIdAndUpdate(req.params.id, {title, author, url, likes }, {new: true})
-        .then((data) => {
-            res.status(200).json(data)
-        })
-        .catch(error => console.log(`Error: ${error.message}`))
-    };
+const deleteBlog = async (req, res) => {
+    try {
+        const blog = await BlogSchema.findByIdAndRemove(req.params.id);
+        res.status(200).json(blog);
+    } catch (error) {
+        console.log(`Error: ${error.message}`);
+    }
+};
+
+const putBlog = async (req, res) => {
+    const {title, author, url, likes} = req.body;
+    try {
+        const blog = await BlogSchema.findByIdAndUpdate(req.params.id, {title, author, url, likes}, {new: true});
+        res.status(200).json(blog);
+    } catch (error) {
+        console.log(`Error: ${error.message}`);
+    }
+
+};
 
 
 const blogController = {
