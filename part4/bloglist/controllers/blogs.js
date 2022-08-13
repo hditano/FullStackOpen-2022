@@ -5,7 +5,7 @@ const BlogSchema = require('../models/blog');
 const getBlog =  async (req, res) => {
     try {
         const blog = await BlogSchema.find({});
-        res.json(blog);
+        res.status(200).json(blog);
     } catch (error) {
         console.log(`Error: ${error.message}`);
     }
@@ -25,7 +25,7 @@ const postBlog = async (req, res) => {
     
     try {
         const blog = await BlogSchema(req.body).save();
-        res.status(200).json(blog);
+        res.status(201).json(blog);
     } catch (error) {
         console.log(`Error: ${error.message}`);
     }
