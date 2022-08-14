@@ -5,9 +5,9 @@ const router = express.Router();
 
 
 
-router.get('/blog', getBlog);
-
 router.get('/blog/:id', getBlogID );
+
+router.get('/blog', getBlog);
 
 
 router.post('/blog', postBlog);

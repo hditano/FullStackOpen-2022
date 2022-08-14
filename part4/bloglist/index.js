@@ -1,36 +1,42 @@
 require('dotenv').config()
+require('express-async-errors');
 const http = require('http')
 const express = require('express')
 const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
 const blogRouter = require('./routes/blogs_routers');
+const userRouter = require('./routes/users_routers');
 const logger = require('./utils/logger');
 const {PORT, MONGODB_URI} = require('./settings');
-
+const  { errorHandler, unknownEndpoint } = require('./utils/middleware/errorHandlers');
 
 
 app.use(cors())
 app.use(express.json());
 
 
+
+
 const ConnectToMongoDB = async () => {
-    try {
         await mongoose.connect(MONGODB_URI);
         logger.info('Connected to MongoDB');
-    } catch (error) {
-        logger.error(`Error: ${error.message}`);
-    }
 
 }
 
 ConnectToMongoDB();
 
 app.use('/api', blogRouter);
+app.use('/api', userRouter);
+
+
 
 
 const server = app.listen(PORT, () => {
   logger.info(`Server running on port ${PORT}`)
 })
+
+app.use(unknownEndpoint);
+app.use(errorHandler);
 
 module.exports = server
