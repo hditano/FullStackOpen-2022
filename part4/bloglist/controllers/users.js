@@ -6,7 +6,7 @@ const getUser = async (req, res) => {
     res.status(200).json(user);
 }
 
-const createUser = async(req, res) => {
+const createUser = async (req, res) => {
     const {name, email, password} = req.body;
 
     const saltRounds = 10;
@@ -16,12 +16,12 @@ const createUser = async(req, res) => {
         name,
         email,
         passwordHash
-    })
+    });
+
     const savedUser = await user.save();
 
     res.status(201).json(savedUser);
 }
-
 
 
 module.exports = {
