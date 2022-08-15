@@ -2,6 +2,7 @@ const express = require('express');
 const BlogSchema = require('../models/blog');
 const userSchema = require('../models/user');
 const jwt = require('jsonwebtoken');
+const { users } = require('moongose/models');
 
 
 const getBlog =  async (req, res) => {
@@ -33,6 +34,7 @@ const postBlog = async (req, res) => {
         const token = getToken(req);
 
         const decodedToken = jwt.verify(token, process.env.SECRET);
+
         if(!decodedToken.id) {
                 return res.status(400).json({error: 'token missing or invalid'});
         }
@@ -55,8 +57,26 @@ const postBlog = async (req, res) => {
 
 const deleteBlog = async (req, res) => {
 
-        const blog = await BlogSchema.findByIdAndRemove(req.params.id);
-        res.status(200).json(blog);
+        const token = getToken(req);
+
+        const decodedToken = jwt.verify(token, process.env.SECRET);
+
+
+        if(!token || !decodedToken.id) {
+                return res.status(400).json({error: 'token or wrong user'})
+        }
+
+        const blogId = req.params.id;
+        const blog = await BlogSchema.findById(blogId);
+
+        console.log(blog.userId);
+        console.log(decodedToken.id);
+
+        if(blog.userId.toString() === decodedToken.id.toString()) {
+                await BlogSchema.deleteOne({_id: blogId})
+                return res.status(204).json({ message: 'Blog Deleted'})
+        }
+
 };
 
 const putBlog = async (req, res) => {
