@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
-const app = require('../index')
+const { app, server} = require('../index')
 
 const api = supertest(app)
 
@@ -13,32 +13,42 @@ describe('HTTP GET API Request Test', () =>    {
 
     })
 
-    // test('expect returns on how many items are on the API', async () => {
-    //     const response = await api.get('/api/blog');
+    test('expects to get an existing id', async () => {
+        const response = await api.get('/api/blog')
 
+        const contents = response.body.map(ele => ele._id);
 
-    //     expect(response.body).toHaveLength(response.length);
-    // })
+        expect(contents).toContain("62f97890b86b67d74b36bd65");
+    })
+
+    test('expects to get Length of getAll', async () => {
+        const response = await api.get('/api/blog')
+
+        const content = response.body.map(ele => ele);
+
+        expect(content.length).toBe(9)
+    })
 
 })
 
 describe('HTTP POST API Request Tests', () => {
 
-    test('Make a post successfully', async () => {
-        const response = await api.post('/api/blog').send({title: 'Star Wars', author: 'Hernan', url: 'www.google.com', likes: 22});
+    test.skip('Make a post successfully', async () => {
+        const response = await api.post('/api/blog').send({title: 'Star Wars', author: 'Hernan', url: 'www.google.com', likes: 22, userId: "62f98810a2d6bdbd83589956"});
 
         expect(response.statusCode).toBe(201)
     })
 
-    test('Verifies if likes property is missing', async () => {
+    test.skip('Verifies if likes property is missing', async () => {
         const res =  await api.post('/api/blog').send({title: 'Star Wars', author: 'Hernan', url: 'www.google.com'});
 
-        expect(res.body).not.toHaveProperty('likes')
+        expect(res.body).toHaveProperty(author)
     })
 })
 
 
 
 afterAll(() => {
-    mongoose.connection.close()
+    mongoose.connection.close();
+    server.close()
 })

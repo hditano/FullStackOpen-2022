@@ -7,6 +7,7 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 const blogRouter = require('./routes/blogs_routers');
 const userRouter = require('./routes/users_routers');
+const loginRouter = require('./routes/login_routers');
 const logger = require('./utils/logger');
 const {PORT, MONGODB_URI} = require('./settings');
 const  { errorHandler, unknownEndpoint } = require('./utils/middleware/errorHandlers');
@@ -28,6 +29,7 @@ ConnectToMongoDB();
 
 app.use('/api', blogRouter);
 app.use('/api', userRouter);
+app.use('/api', loginRouter);
 
 
 
@@ -39,4 +41,4 @@ const server = app.listen(PORT, () => {
 app.use(unknownEndpoint);
 app.use(errorHandler);
 
-module.exports = server
+module.exports = { app, server}
