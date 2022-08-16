@@ -2,8 +2,6 @@ const express = require('express');
 const BlogSchema = require('../models/blog');
 const userSchema = require('../models/user');
 const jwt = require('jsonwebtoken');
-const { users } = require('moongose/models');
-
 
 const getBlog =  async (req, res) => {
         const blog = await BlogSchema.find({}).populate('userId', {username: 1, name: 1, email: 1, passwordHash: 1, blogs: 1});
@@ -19,19 +17,11 @@ const getBlogID = async (req, res) => {
         
 };
 
-const getToken = request => {
-        const authorization = request.get('authorization');
-        if( authorization && authorization.toLowerCase().startsWith('bearer ')){
-                return authorization.substring(7)
-        }
-        return null;
-}
-
 
 const postBlog = async (req, res) => {
     
         const {title, author, url, likes, userId} = req.body;
-        const token = getToken(req);
+        const token = req.token
 
         const decodedToken = jwt.verify(token, process.env.SECRET);
 
@@ -46,7 +36,7 @@ const postBlog = async (req, res) => {
             author,
             url,
             likes,
-            userId: user.id   
+            userId: user.id
         });
 
         const savedNote = await newBlog.save();
@@ -57,7 +47,7 @@ const postBlog = async (req, res) => {
 
 const deleteBlog = async (req, res) => {
 
-        const token = getToken(req);
+        const token = req.token
 
         const decodedToken = jwt.verify(token, process.env.SECRET);
 
@@ -68,9 +58,7 @@ const deleteBlog = async (req, res) => {
 
         const blogId = req.params.id;
         const blog = await BlogSchema.findById(blogId);
-
-        console.log(blog.userId);
-        console.log(decodedToken.id);
+        
 
         if(blog.userId.toString() === decodedToken.id.toString()) {
                 await BlogSchema.deleteOne({_id: blogId})

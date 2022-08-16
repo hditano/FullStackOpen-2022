@@ -7,6 +7,11 @@ const getUser = async (req, res) => {
     res.status(200).json(user);
 }
 
+const getUserId = async (req, res) => {
+    const user = await userSchema.findById(req.params.id).populate('blogs', {title: 1, author: 1, likes: 1})
+    res.status(200).json(user)
+}
+
 const createUser = async (req, res) => {
     const {username, name, email, password, userId } = req.body;
 
@@ -33,6 +38,7 @@ const deleteUser = async (req, res) => {
 
 module.exports = {
     getUser,
+    getUserId,
     createUser,
     deleteUser
 };
