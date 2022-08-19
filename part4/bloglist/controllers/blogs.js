@@ -17,7 +17,6 @@ const getBlogID = async (req, res) => {
         
 };
 
-// Test Comment //
 
 const postBlog = async (req, res) => {
     
