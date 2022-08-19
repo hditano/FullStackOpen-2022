@@ -53,7 +53,7 @@ const deleteBlog = async (req, res) => {
 
 
         if(!token || !decodedToken.id) {
-                return res.status(400).json({error: 'token or wrong user'})
+                return res.status(400).json({error: 'token or wrong user'});
         }
 
         const blogId = req.params.id;
