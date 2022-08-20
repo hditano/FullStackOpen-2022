@@ -18,23 +18,35 @@ function App() {
     getBlog();
   },[])
 
-  console.log(blog)
+  console.log(user)
   
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const response = await loginServices.userLogin({username, password});
+      window.localStorage.setItem('username',JSON.stringify(response.data));
       setUser(response);
+      loginServices.setToken(response.data);
+      setUsername('');
+      setPassword('');
     } catch (error) {
       console.log(error);	
     }
+  }
+
+  const logoutLogin = (e) => {
+    e.preventDefault();
+    loginServices.logOut();
+    setUser(null);
   }
 
 
   return (
     <div>
       <div>
-	{user ? `User: ${username} is logged in ` :
+	{user && `${username} is logged in    `}
+	{user && <button name='logout_bt' onClick={logoutLogin} >Logout</button>}
+	{!user && 
 	<form onSubmit={handleLogin}>
 	  <p>Login</p>
 	  <input type='text' name='username' value={username} onChange={({target}) => setUsername(target.value)} />
