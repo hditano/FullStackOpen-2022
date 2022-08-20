@@ -9,6 +9,16 @@ import axios from 'axios'
     return blog.data
   }
 
+  const createBlog = async (newBlog) => {
+  
+    const headers = {
+      headers: {Authorization: token}
+    }
+
+    const blog = await axios.post('${URI}/api/blog', newBlog, headers)
+    return blog.data;
+  }
+
   const userLogin = async (credentials) => {
     const response = await axios.post(`${URI}/api/login`,credentials);
     return response;
@@ -34,5 +44,6 @@ export default  {
   userLogin,
   setToken,
   logOut,
-  logger
+  logger,
+  createBlog
 }

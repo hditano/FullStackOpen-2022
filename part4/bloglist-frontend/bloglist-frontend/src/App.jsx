@@ -18,7 +18,6 @@ function App() {
     getBlog();
   },[])
 
-  console.log(user)
   
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -27,8 +26,6 @@ function App() {
       window.localStorage.setItem('username',JSON.stringify(response.data));
       setUser(response);
       loginServices.setToken(response.data);
-      setUsername('');
-      setPassword('');
     } catch (error) {
       console.log(error);	
     }
@@ -38,6 +35,8 @@ function App() {
     e.preventDefault();
     loginServices.logOut();
     setUser(null);
+    setUsername('');
+    setPassword('');
   }
 
 
