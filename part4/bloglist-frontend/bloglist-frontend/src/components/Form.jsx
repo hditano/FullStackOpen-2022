@@ -1,6 +1,6 @@
 import {useEffect} from "react";
 
-const Form = ({handleLogin}) => {
+const Form = ({handleLogin, username, password}) => {
 
 //  const [logged, setLogged] = useState('');
 
@@ -14,10 +14,10 @@ const Form = ({handleLogin}) => {
     <>
     <form onSubmit={handleLogin}>
       <p>Login</p>
-      <input type='text' name="username_login" />
+      <input type='text' name="username_login" value={username} onChange={username}/>
       <label>UserName</label>
       <br></br>
-      <input type='text' name='password_login'/>
+      <input type='text' name='password_login' value={password} onChange={password}/>
       <label> Password</label>
       <br></br>
       <button type="submit">Login</button>
