@@ -1,12 +1,9 @@
 import {useEffect} from "react";
 
-const Form = ({onStatusChange, status}) => {
+const Form = ({handleLogin}) => {
 
 //  const [logged, setLogged] = useState('');
 
-  useEffect(() => {
-//    setLogged(onStatusChange)
-  },[onStatusChange])
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -15,13 +12,16 @@ const Form = ({onStatusChange, status}) => {
 
   return(
     <>
+    <form onSubmit={handleLogin}>
+      <p>Login</p>
       <input type='text' name="username_login" />
-      <label>{status ? ' Login' : ' Logout'}</label>
+      <label>UserName</label>
       <br></br>
       <input type='text' name='password_login'/>
       <label> Password</label>
       <br></br>
-      <button onClick={handleClick}>Login</button>
+      <button type="submit">Login</button>
+    </form>
     </>
   )
 }
