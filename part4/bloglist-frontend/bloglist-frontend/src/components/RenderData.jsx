@@ -7,11 +7,11 @@ const RenderData = ({data}) => {
 
   return (
     <div>
+      <p>Blogs saved</p>
       {render}
     </div>
   )
 
 }
-
 
 export default RenderData;

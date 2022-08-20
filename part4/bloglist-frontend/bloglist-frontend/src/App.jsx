@@ -1,13 +1,24 @@
 import {useEffect, useState} from 'react';
 import loginServices from './services/Login';
+import RenderData  from './components/RenderData';
 
 function App() {
   
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [blog, setBlog] = useState(null);
   const [user, setUser] = useState(null);
 
-  console.log(user)
+
+  useEffect(() => {
+    const getBlog = async () => {
+      const response = await loginServices.getBlogs();
+      setBlog(response);
+    };
+    getBlog();
+  },[])
+
+  console.log(blog)
   
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -18,6 +29,7 @@ function App() {
       console.log(error);	
     }
   }
+
 
   return (
     <div>
@@ -33,8 +45,13 @@ function App() {
 	  <button type='submit'>Submit</button>
 	</form>}
       </div>
+    <div>
+    {user && <RenderData data={blog} /> }
     </div>
+     </div>
   )
 }
+
+
 
 export default App
