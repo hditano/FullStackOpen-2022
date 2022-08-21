@@ -3,6 +3,7 @@ import loginServices from './services/Login';
 import RenderData  from './components/RenderData';
 import CreateForm from './components/CreateForm';
 import Notifications from './components/Notifications';
+import Togglabel from './components/Togglabel';
 
 function App() {
   
@@ -43,7 +44,7 @@ function App() {
       window.localStorage.setItem('username',JSON.stringify(response.data));
       setUser(response);
       setNotification({
-	message: `Welcome username`,
+	message: `Welcome ${username}`,
 	type: 'sucess'
       });
       loginServices.setToken(response.data);
@@ -92,7 +93,9 @@ function App() {
      </div>
       <div>
 	{user && <RenderData data={blog} /> }
+      <Togglabel buttonLabel='Create'>
 	{user && <CreateForm handleBlog={handleData}/>}
+      </Togglabel>
       </div>
     </div>
   )
