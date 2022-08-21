@@ -28,9 +28,11 @@ function App() {
       window.localStorage.setItem('username',JSON.stringify(response.data));
       setUser(response);
       setNotification(prevState => !prevState);
-      setMessage('logged');
+      setMessage(`Welcome ${username}`);
       loginServices.setToken(response.data);
     } catch (error) {
+      setMessage(`Username or Password incorrectly`);
+      setNotification(false);
       console.log(error);	
     }
   }
@@ -41,18 +43,20 @@ function App() {
     setUser(null);
     setUsername('');
     setPassword('');
+    setMessage('');
+    setNotification(prevState => !prevState);
   }
 
   const handleData = (data) => {
     setBlog(data);
-    console.log(blog);
+    setMessage(`Added blog ${data.title} by ${data.author}`)
     loginServices.createBlog(data);
   }
 
   const styles = {
     backgroundColor: 'lightGray',
     display: 'flex',
-    width: '50%',
+    width: '80%',
     height: '80px',
     borderRadius: '5px',
     border: '2px solid green',
@@ -65,8 +69,7 @@ function App() {
   return (
     <div>
       <div>
-	<h1 style={notification ? {...styles, backgroundColor: 'red'} : styles}>Test</h1>
-	{user && `${username} is logged in    `}
+	{user && <h1 style={notification ? styles : {...styles, backgroundColor: 'red'}}>{message}</h1>}
 	{user && <button name='logout_bt' onClick={logoutLogin} >Logout</button>}
 	{!user && 
 	<form onSubmit={handleLogin}>
