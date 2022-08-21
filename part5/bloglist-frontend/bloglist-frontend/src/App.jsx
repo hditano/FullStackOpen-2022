@@ -42,7 +42,7 @@ function App() {
   const handleData = (data) => {
     setBlog(data);
     console.log(blog);
-    loginServices.createBlog(blog);
+    loginServices.createBlog(data);
   }
 
 
