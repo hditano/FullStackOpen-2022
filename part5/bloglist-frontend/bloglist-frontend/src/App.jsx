@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react';
 import loginServices from './services/Login';
 import RenderData  from './components/RenderData';
 import CreateForm from './components/CreateForm';
+import Notifications from './components/Notifications';
 
 function App() {
   
@@ -9,8 +10,8 @@ function App() {
   const [password, setPassword] = useState('');
   const [blog, setBlog] = useState(null);
   const [user, setUser] = useState(null);
-  const [notification, setNotification] = useState(false);
-  const [message, setMessage] = useState('');
+  const [notification, setNotification] = useState(null);
+
 
   useEffect(() => {
     const getBlog = async () => {
@@ -18,6 +19,20 @@ function App() {
       setBlog(response);
     };
     getBlog();
+  },[blog])
+
+  useEffect(() => {
+    const loggedUser = window.localStorage.getItem('username')
+    if(loggedUser) {
+      const response = JSON.parse(loggedUser)
+      setUser(response);
+      setBlog(response);
+      setNotification({
+	message: `Welcome ${response.username}`,
+	type: 'sucess'
+      })
+      loginServices.setToken(response.token)
+    }
   },[])
 
   
@@ -27,13 +42,17 @@ function App() {
       const response = await loginServices.userLogin({username, password});
       window.localStorage.setItem('username',JSON.stringify(response.data));
       setUser(response);
-      setNotification(prevState => !prevState);
-      setMessage(`Welcome ${username}`);
+      setNotification({
+	message: `Welcome username`,
+	type: 'sucess'
+      });
       loginServices.setToken(response.data);
     } catch (error) {
-      setMessage(`Username or Password incorrectly`);
-      setNotification(false);
-      console.log(error);	
+      console.log(user);
+      setNotification({
+	message: 'Username or Password invalid',
+	type: 'error'
+      })
     }
   }
 
@@ -43,33 +62,22 @@ function App() {
     setUser(null);
     setUsername('');
     setPassword('');
-    setMessage('');
-    setNotification(prevState => !prevState);
+    setNotification(null);
   }
 
   const handleData = (data) => {
     setBlog(data);
-    setMessage(`Added blog ${data.title} by ${data.author}`)
     loginServices.createBlog(data);
+    setNotification({
+      message: `Blog ${data.title} by ${data.author}`,
+      type: 'sucess'
+    })
   }
-
-  const styles = {
-    backgroundColor: 'lightGray',
-    display: 'flex',
-    width: '80%',
-    height: '80px',
-    borderRadius: '5px',
-    border: '2px solid green',
-    color: 'green',
-    alignItems: 'center',
-    justifyContent: 'center'  
-  }
-
 
   return (
     <div>
       <div>
-	{user && <h1 style={notification ? styles : {...styles, backgroundColor: 'red'}}>{message}</h1>}
+	<Notifications message={notification}/>
 	{user && <button name='logout_bt' onClick={logoutLogin} >Logout</button>}
 	{!user && 
 	<form onSubmit={handleLogin}>
