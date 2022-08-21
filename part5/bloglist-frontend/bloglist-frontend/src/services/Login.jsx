@@ -25,7 +25,6 @@ import axios from 'axios'
   }
 
   const logOut = () => {
-    console.log(token);
     token = '';
     localStorage.removeItem('username');
   } 

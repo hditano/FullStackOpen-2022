@@ -49,7 +49,6 @@ function App() {
       });
       loginServices.setToken(response.data);
     } catch (error) {
-      console.log(user);
       setNotification({
 	message: 'Username or Password invalid',
 	type: 'error'
