@@ -12,11 +12,11 @@ import axios from 'axios'
   const createBlog = async (newBlog) => {
   
     const headers = {
-      headers: {Authorization: token}
+      headers: {Authorization: token},
     }
 
-    const blog = await axios.post('${URI}/api/blog', newBlog, headers)
-    return blog.data;
+    const blog = await axios.post(`${URI}/api/blog`, newBlog)
+    console.log(blog);
   }
 
   const userLogin = async (credentials) => {

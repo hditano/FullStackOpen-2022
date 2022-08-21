@@ -1,30 +1,49 @@
-import {useEffect} from "react";
+import {useState} from 'react';
 
-const Form = ({handleLogin, username, password}) => {
+function CreateForm({handleBlog}) {
 
-//  const [logged, setLogged] = useState('');
-
-
-  const handleClick = (e) => {
-    e.preventDefault();
-    onStatusChange(prevState => !prevState);
+  const newBlog = {
+    title: '',
+    author: '',
+    url: ''
   }
 
-  return(
+  const [blog, setBlog] = useState(newBlog);
+
+
+  const handleInput = (e) => {
+    e.preventDefault();
+    const {name, value} = e.target;
+
+    setBlog({
+      ...blog,
+      [name]: value,
+    })
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleBlog(blog)
+  }
+
+
+  return (
     <>
-    <form onSubmit={handleLogin}>
-      <p>Login</p>
-      <input type='text' name="username_login" value={username} onChange={username}/>
-      <label>UserName</label>
+      <h3>Create New Blog</h3>
+    <form onSubmit={handleSubmit}>
+      <span>Title:  </span>
+      <input type='text' name='title' value={blog.title} onChange={handleInput} />
       <br></br>
-      <input type='text' name='password_login' value={password} onChange={password}/>
-      <label> Password</label>
+      <span>Author: </span>
+      <input type="text" name='author' value={blog.author} onChange={handleInput}/>
       <br></br>
-      <button type="submit">Login</button>
+      <span>Url: </span>
+      <input type='text' name='url' value={blog.url} onChange={handleInput}/>
+      <br></br>
+      <button type='submit'>Create</button>
     </form>
     </>
   )
 }
 
-
-export default Form;
+export default CreateForm;

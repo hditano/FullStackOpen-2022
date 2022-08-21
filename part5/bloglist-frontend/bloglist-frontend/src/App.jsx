@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import loginServices from './services/Login';
 import RenderData  from './components/RenderData';
+import CreateForm from './components/Form';
 
 function App() {
   
@@ -8,7 +9,6 @@ function App() {
   const [password, setPassword] = useState('');
   const [blog, setBlog] = useState(null);
   const [user, setUser] = useState(null);
-
 
   useEffect(() => {
     const getBlog = async () => {
@@ -39,6 +39,12 @@ function App() {
     setPassword('');
   }
 
+  const handleData = (data) => {
+    setBlog(data);
+    console.log(blog);
+    loginServices.createBlog(blog);
+  }
+
 
   return (
     <div>
@@ -55,11 +61,12 @@ function App() {
 	  <br></br>
 	  <button type='submit'>Submit</button>
 	</form>}
-      </div>
-    <div>
-    {user && <RenderData data={blog} /> }
-    </div>
      </div>
+      <div>
+	{user && <RenderData data={blog} /> }
+	{user && <CreateForm handleBlog={handleData}/>}
+      </div>
+    </div>
   )
 }
 
