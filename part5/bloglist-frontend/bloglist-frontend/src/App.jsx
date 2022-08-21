@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import loginServices from './services/Login';
 import RenderData  from './components/RenderData';
-import CreateForm from './components/Form';
+import CreateForm from './components/CreateForm';
 
 function App() {
   
@@ -9,6 +9,8 @@ function App() {
   const [password, setPassword] = useState('');
   const [blog, setBlog] = useState(null);
   const [user, setUser] = useState(null);
+  const [notification, setNotification] = useState(false);
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     const getBlog = async () => {
@@ -25,6 +27,8 @@ function App() {
       const response = await loginServices.userLogin({username, password});
       window.localStorage.setItem('username',JSON.stringify(response.data));
       setUser(response);
+      setNotification(prevState => !prevState);
+      setMessage('logged');
       loginServices.setToken(response.data);
     } catch (error) {
       console.log(error);	
@@ -45,10 +49,23 @@ function App() {
     loginServices.createBlog(data);
   }
 
+  const styles = {
+    backgroundColor: 'lightGray',
+    display: 'flex',
+    width: '50%',
+    height: '80px',
+    borderRadius: '5px',
+    border: '2px solid green',
+    color: 'green',
+    alignItems: 'center',
+    justifyContent: 'center'  
+  }
+
 
   return (
     <div>
       <div>
+	<h1 style={notification ? {...styles, backgroundColor: 'red'} : styles}>Test</h1>
 	{user && `${username} is logged in    `}
 	{user && <button name='logout_bt' onClick={logoutLogin} >Logout</button>}
 	{!user && 
