@@ -17,7 +17,6 @@ const Togglabel = ({children, buttonLabel}) => {
       <button onClick={() => setVisible(false)}>Cancel</button>
     </div>
   </div>
-  )
+  ) 
 }
-
 export default Togglabel;
