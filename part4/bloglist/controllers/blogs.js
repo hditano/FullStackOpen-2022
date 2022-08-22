@@ -70,6 +70,13 @@ const deleteBlog = async (req, res) => {
 const putBlog = async (req, res) => {
     const {title, author, url, likes, user} = req.body;
 
+      const token = req.token;
+      const decodedToken = jwt.verify(token, process.env.SECRET);
+
+      if(!token || !decodedToken.id) {
+        return res.status(400).json({error: 'token or wrong user'});
+      }
+    
         const blog = await BlogSchema.findByIdAndUpdate(req.params.id, {title, author, url, likes, user}, {new: true});
         res.status(200).json(blog);
 
