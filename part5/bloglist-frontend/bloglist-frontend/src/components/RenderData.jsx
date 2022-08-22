@@ -2,19 +2,35 @@ import Togglabel from '../components/Togglabel';
 
 const RenderData = ({data}) => {
 
-  const handleClick = (e) => {
-    console.log('clicked');
+
+  const style = {
+    div: {
+    display: 'flex',
+    flexDirection: 'row',
+    backgroundColor: 'lightGrey',
+    margin: '20px',
+    width: '50%',
+    justifyContent: 'left'
+    },
+
   }
 
-  const render = Object.entries(data).map(ele =><Togglabel buttonLabel='Show'> <div> <p key={ele[1]._id}>Title:{ele[1].title} - Author: {ele[1].author}</p> </div></Togglabel> )
-
   return (
-    <div>
-      <h2>Blogs saved</h2>
-        {render}
-    </div>
+    Object.entries(data).map(ele => {
+      return (
+      <div style={style.div}>
+        <br></br>
+        <div style={style.mainTitle}key={ele[1]._id}>Title: {ele[1].title}</div>
+        <Togglabel buttonLabel='Show'>
+          <p>Author: {ele[1].author}</p>
+          <p>URL: {ele[1].url}</p>
+          <p>Likes: {ele[1].likes}</p>
+        </Togglabel>
+        </div>
+      )
+    })
   )
 
 }
 
-export default RenderData;
+export default RenderData
