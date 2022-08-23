@@ -5,7 +5,8 @@ function CreateForm({handleBlog}) {
   const newBlog = {
     title: '',
     author: '',
-    url: ''
+    url: '',
+    likes: '',
   }
 
   const [blog, setBlog] = useState(newBlog);

@@ -44,6 +44,7 @@ function App() {
         message: `Welcome ${username}`,
         type: 'sucess'
       });
+      console.log(response.data)
       loginServices.setToken(response.data);
     } catch (error) {
       setNotification({
@@ -78,7 +79,16 @@ function App() {
       likes: likes + 1,
     });
     setUpdate(Math.floor(Math.random() * 100));
-  } 
+  }
+
+  const handleRemove = async (id) => {
+    const data = await JSON.parse(window.localStorage.getItem('username'));
+    await loginServices.setToken(data)
+    await loginServices.removeBlog({
+      id: id,
+    })
+    setUpdate(Math.floor(Math.random() * 100));
+  }
 
   return (
     <div>
@@ -97,7 +107,7 @@ function App() {
           </form>}
       </div>
       <div>
-        {user && Object.entries(blog).map(ele => <RenderData handleLikes={handleLikes} data={ele} />)}
+        {user && Object.entries(blog).map(ele => <RenderData handleRemove={handleRemove} handleLikes={handleLikes} data={ele} />)}
         <Togglabel buttonLabel='Create'>
           {user && <CreateForm  handleBlog={handleData} />}
         </Togglabel>

@@ -60,9 +60,9 @@ const deleteBlog = async (req, res) => {
         const blog = await BlogSchema.findById(blogId);
         
 
-        if(blog.userId.toString() === decodedToken.id.toString()) {
+        if(blog.userId.toString() === decodedToken.id) {
                 await BlogSchema.deleteOne({_id: blogId})
-                return res.status(204).json({ message: 'Blog Deleted'})
+                return res.status(204).json({ message: 'Blog Deleted'}).end();
         }
 
 };
