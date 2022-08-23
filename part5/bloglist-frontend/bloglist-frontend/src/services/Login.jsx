@@ -6,7 +6,7 @@ import axios from 'axios'
 
   const getBlogs = async() => {
     const blog = await axios.get(`${URI}/api/blog`);
-    return blog.data
+    return blog.data;
   }
 
   const createBlog = async (newBlog) => {
@@ -16,8 +16,20 @@ import axios from 'axios'
     }
 
     const blog = await axios.post(`${URI}/api/blog`, newBlog, config)
-    console.log(blog);
   }
+
+  const updateBlog = async (blog) => {
+
+
+    const config = {
+      header: {Authorization: token},
+    }
+
+
+  const response = await axios.put(`${URI}/api/blog/${blog.id}`, {likes: blog.likes}, config);
+
+  }
+
 
   const userLogin = async (credentials) => {
     const response = await axios.post(`${URI}/api/login`,credentials);
@@ -40,6 +52,7 @@ import axios from 'axios'
 
 export default  {
   getBlogs,
+  updateBlog,
   userLogin,
   setToken,
   logOut,

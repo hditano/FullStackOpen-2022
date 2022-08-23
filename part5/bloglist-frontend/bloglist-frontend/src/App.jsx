@@ -9,18 +9,15 @@ function App() {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [blog, setBlog] = useState(null);
+  const [blog, setBlog] = useState([]);
   const [user, setUser] = useState(null);
+  const [update, setUpdate] = useState(null);
   const [notification, setNotification] = useState(null);
 
 
   useEffect(() => {
-    const getBlog = async () => {
-      const response = await loginServices.getBlogs();
-      setBlog(response);
-    };
-    getBlog();
-  }, [blog])
+    loginServices.getBlogs().then((response) => setBlog(response));
+  }, [update])
 
   useEffect(() => {
     const loggedUser = window.localStorage.getItem('username')
@@ -70,9 +67,18 @@ function App() {
     loginServices.createBlog(data);
     setNotification({
       message: `Blog ${data.title} by ${data.author}`,
-      type: 'sucess'
-    })
+      type: 'success'
+    });
+    setUpdate(Math.floor(Math.random() * 100));
   }
+
+  const handleLikes = async (id, likes) => {
+    await loginServices.updateBlog({
+      id: id,
+      likes: likes + 1,
+    });
+    setUpdate(Math.floor(Math.random() * 100));
+  } 
 
   return (
     <div>
@@ -91,9 +97,9 @@ function App() {
           </form>}
       </div>
       <div>
-        {user && <RenderData data={blog} />}
+        {user && Object.entries(blog).map(ele => <RenderData handleLikes={handleLikes} data={ele} />)}
         <Togglabel buttonLabel='Create'>
-          {user && <CreateForm handleBlog={handleData} />}
+          {user && <CreateForm  handleBlog={handleData} />}
         </Togglabel>
       </div>
     </div>

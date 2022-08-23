@@ -1,33 +1,44 @@
+import {useState} from 'react';
 import Togglabel from '../components/Togglabel';
-const RenderData = ({data}) => {
+import loginServices from '../services/Login';
+
+const RenderData = ({data, handleLikes}) => {
 
 
   const style = {
     div: {
-    display: 'flex',
-    flexDirection: 'row',
-    backgroundColor: 'lightGrey',
-    margin: '20px',
-    width: '50%',
-    justifyContent: 'left'
+      display: 'flex',
+      backgroundColor: '#fbf6ef',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      width: "50%",
+      textAlign: 'center'
     },
-
+    button: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '5em',
+      height: '2em',
+      margin: 'auto',
+      backgroundColor: '#bfbcbb'
+    }
+    
   }
 
   return (
-    Object.entries(data).map(ele => {
-      return (
-      <div style={style.div}>
-        <br></br>
-        <div style={style.mainTitle} key={ele[1]._id}>Title: {ele[1].title}</div>
-        <Togglabel buttonLabel='Show'>
-          <p>Author: {ele[1].author}</p>
-          <p>URL: {ele[1].url}</p>
-          <p>Likes: {ele[1].likes}</p>
-        </Togglabel>
+    <div >
+      <h5>Title: {data[1].title}</h5> 
+      <Togglabel buttonLabel='show'>
+        <div style={style.div}>
+          <p>Author: {data[1].author}</p>
+          <p>URL: {data[1].url}</p>
+          <p>Likes: {data[1].likes}</p>
+          <button style={style.button} onClick={() => handleLikes(data[1]._id, data[1].likes)}>Like</button>
+          <button style={style.button} >Remove</button>
         </div>
-      )
-    })
+      </Togglabel>
+    </div>
   )
 
 }

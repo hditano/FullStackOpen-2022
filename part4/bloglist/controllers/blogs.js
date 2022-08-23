@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 
 const getBlog =  async (req, res) => {
         const blog = await BlogSchema.find({}).populate('userId', {username: 1, name: 1, email: 1, passwordHash: 1, blogs: 1});
-        res.status(200).json(blog);
+        res.json(blog);
 
 };
 
@@ -68,18 +68,24 @@ const deleteBlog = async (req, res) => {
 };
 
 const putBlog = async (req, res) => {
-    const {title, author, url, likes, user} = req.body;
 
-      const token = req.token;
-      const decodedToken = jwt.verify(token, process.env.SECRET);
+      // const token = req.token;
+      // const decodedToken = jwt.verify(token, process.env.SECRET);
 
-      if(!token || !decodedToken.id) {
-        return res.status(400).json({error: 'token or wrong user'});
-      }
-    
-        const blog = await BlogSchema.findByIdAndUpdate(req.params.id, {title, author, url, likes, user}, {new: true});
-        res.status(200).json(blog);
-
+      // if(!token || !decodedToken.id) {
+      //  return res.status(400).json({error: 'token or wrong user'});
+      // }
+   
+    if(req.body.likes) {
+      const blog = {
+        likes: req.body.likes
+      };
+        const response = await BlogSchema.findByIdAndUpdate(req.params.id, blog, {new: true});
+    console.log(response)
+        res.status(200).json(response);
+      } else {
+    res.status(400).send({error: 'Likes property is missing'});
+  }
 };
 
 
