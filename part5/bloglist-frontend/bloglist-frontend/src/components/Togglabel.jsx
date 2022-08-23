@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import PropTypes from 'prop-types'
 
 const Togglabel = ({children, buttonLabel}) => {
 
@@ -20,3 +21,7 @@ const Togglabel = ({children, buttonLabel}) => {
   ) 
 }
 export default Togglabel;
+
+Togglabel.propTypes = {
+  buttonLabel : PropTypes.string.isRequired
+}

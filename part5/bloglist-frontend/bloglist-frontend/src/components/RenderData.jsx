@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import Togglabel from '../components/Togglabel';
 import loginServices from '../services/Login';
+import PropTypes from 'prop-types';
 
 const RenderData = ({data, handleLikes, handleRemove}) => {
 
@@ -45,3 +46,9 @@ const RenderData = ({data, handleLikes, handleRemove}) => {
 }
 
 export default RenderData
+
+RenderData.propTypes = {
+  handleLikes: PropTypes.func,
+  data: PropTypes.array.isRequired,
+  hnadleRemove: PropTypes.func
+}
