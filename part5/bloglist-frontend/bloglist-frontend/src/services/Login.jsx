@@ -34,8 +34,8 @@ import axios from 'axios'
 
   }
 
+// be sure to name headers!!
   const removeBlog = async (blog) => {
-
      const config = {
      headers: {Authorization: token},
       }
