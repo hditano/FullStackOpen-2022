@@ -1,6 +1,4 @@
-import {useState} from 'react';
 import Togglabel from '../components/Togglabel';
-import loginServices from '../services/Login';
 import PropTypes from 'prop-types';
 
 const RenderData = ({data, handleLikes, handleRemove}) => {
