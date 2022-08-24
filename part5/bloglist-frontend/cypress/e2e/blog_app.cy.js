@@ -69,7 +69,15 @@ describe('when logged in', () => {
     cy.get('[name=url]').type(newBlog.url);
     cy.get('#button').click();
         })
-    })
+      })
+
+describe('Blog like', () => {
+  it('a user can like a button', () => {
+    cy.get('#show-button').click();
+    cy.get('#like-button').click();
+  })
+})
+
 
 
 

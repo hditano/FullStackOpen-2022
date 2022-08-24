@@ -11,7 +11,7 @@ const Togglabel = ({children, buttonLabel}) => {
   return (
   <div>
     <div style={hideWhenVisible}>
-      <button onClick={() => setVisible(true)}>{buttonLabel}</button>
+      <button id="show-button" onClick={() => setVisible(true)}>{buttonLabel}</button>
     </div>
     <div style={showWhenVisible}>
       {children}
