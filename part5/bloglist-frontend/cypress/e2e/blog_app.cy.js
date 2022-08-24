@@ -25,6 +25,7 @@ describe('Blog App', () => {
     cy.get('#loginButton').click();
 
     cy.contains('Username or Password invalid')
+    cy.get('.notificationClass').should('have.css', 'color', 'rgb(255, 0, 0)')
     })
   it.skip('Can create user', () => {
     const user = {
