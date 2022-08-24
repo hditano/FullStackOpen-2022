@@ -49,7 +49,12 @@ describe('<RenderData />', () => {
     expect(url).toHaveTextContent(data[1].url);
     expect(likes).toHaveTextContent(data[1].likes);
     expect(mockHandlerLikes.mock.calls).toHaveLength(1);
+  }),
+  test('..checks if like like button is pressed twice, component receives two event handlers', () => {
+    const button = screen.getByText('Like');
+    fireEvent.click(button);
+    fireEvent.click(button);
 
-    
+    expect(mockHandlerLikes.mock.calls).toHaveLength(2);
   })
 })
