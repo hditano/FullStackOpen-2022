@@ -98,12 +98,12 @@ function App() {
         {!user &&
           <form onSubmit={handleLogin}>
             <p>Login</p>
-            <input type='text' name='username' value={username} onChange={({ target }) => setUsername(target.value)} />
+            <input id="loginUsername" type='text' name='username' value={username} onChange={({ target }) => setUsername(target.value)} />
             <label>Username</label>
-            <input type='text' name='password' value={password} onChange={({ target }) => setPassword(target.value)} />
+            <input id="loginPassword" type='text' name='password' value={password} onChange={({ target }) => setPassword(target.value)} />
             <label>Password</label>
             <br></br>
-            <button type='submit'>Submit</button>
+            <button id="loginButton" type='submit'>Submit</button>
           </form>}
       </div>
       <div>
