@@ -31,17 +31,17 @@ function CreateForm({handleBlog}) {
   return (
     <>
       <h3>Create New Blog</h3>
-    <form onSubmit={handleSubmit}>
+    <form id="form" onSubmit={handleSubmit}>
       <span>Title:  </span>
-      <input type='text' name='title' value={blog.title} onChange={handleInput} />
+      <input id="title" type='text' name='title' value={blog.title} onChange={handleInput} />
       <br></br>
       <span>Author: </span>
-      <input type="text" name='author' value={blog.author} onChange={handleInput}/>
+      <input id="author" type="text" name='author' value={blog.author} onChange={handleInput}/>
       <br></br>
       <span>Url: </span>
-      <input type='text' name='url' value={blog.url} onChange={handleInput}/>
+      <input id="url" type='text' name='url' value={blog.url} onChange={handleInput}/>
       <br></br>
-      <button type='submit'>Create</button>
+      <button id="button" type='submit'>Create</button>
     </form>
     </>
   )
