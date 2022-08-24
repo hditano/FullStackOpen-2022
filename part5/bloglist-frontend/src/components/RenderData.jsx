@@ -38,7 +38,7 @@ const RenderData = ({data, handleLikes, handleRemove}) => {
           <p id="url">URL: {data[1].url}</p>
           <p id="likes">Likes: {data[1].likes}</p>
           <button id="like-button" style={style.button} onClick={() => handleLikes(data[1]._id, data[1].likes)}>Like</button>
-          <button style={style.button} onClick={() => handleRemove(data[1]._id)}>Remove</button>
+          <button id="remove-button" style={style.button} onClick={() => handleRemove(data[1]._id)}>Remove</button>
         </div>
       </Togglabel>
     </div>

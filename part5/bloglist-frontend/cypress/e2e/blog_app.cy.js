@@ -68,16 +68,16 @@ describe('when logged in', () => {
     cy.get('[name=author]').type(newBlog.author);
     cy.get('[name=url]').type(newBlog.url);
     cy.get('#button').click();
-        })
-      })
-
-describe('Blog like', () => {
-  it('a user can like a button', () => {
+    cy.get('[name=logout_bt]').click();
+    })
+  it('a blog can be deleted', () => {
+    cy.get('#show-button').click();
+    cy.get('#remove-button').click();
+    cy.get('[name=logout_bt]').click();
+    })
+  it('a user can like a blog', () => {
     cy.get('#show-button').click();
     cy.get('#like-button').click();
   })
-})
-
-
-
+  })
 
