@@ -109,7 +109,7 @@ function App() {
       <div>
         {user && Object.entries(blog).map(ele => <RenderData handleRemove={handleRemove} handleLikes={handleLikes} data={ele} />)}
         <Togglabel buttonLabel='Create'>
-          {user && <CreateForm  handleBlog={handleData} />}
+          {user && <CreateForm handleBlog={handleData} />}
         </Togglabel>
       </div>
     </div>
