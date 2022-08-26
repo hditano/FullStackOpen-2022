@@ -25,7 +25,15 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'updateVote':
       const { id } = action.payload;
-      return state.map(ele => ele.id === action.payload.id ? { ...ele, votes: ele.votes + 1 } : ele)
+      return state.map(ele => ele.id === id ? { ...ele, votes: ele.votes + 1 } : ele)
+    case 'newNote':
+      const { content } = action.payload
+      const newNote = {
+        content: content,
+        id: getId(),
+        votes: 0
+      }
+      return [...state, newNote]
     default:
       return state
   }
