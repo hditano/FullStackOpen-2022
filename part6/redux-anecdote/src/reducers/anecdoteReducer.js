@@ -7,6 +7,29 @@ const anecdotesAtStart = [
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
 
+
+//Action Creators
+
+const voteDispatch = (id) => {
+  dispatch({
+    type: 'updateVote',
+    payload: {
+      id: id,
+    }
+  })
+}
+
+const newNoteDispatch = (content) => {
+  dispatch({
+    type: 'newNote',
+    payload: {
+      content,
+    }
+  })
+}
+
+
+
 const getId = () => (100000 * Math.random()).toFixed(0)
 
 const asObject = (anecdote) => {
@@ -39,6 +62,9 @@ const reducer = (state = initialState, action) => {
   }
 }
 
-
+export {
+  voteDispatch,
+  newNoteDispatch
+}
 
 export default reducer
