@@ -11,23 +11,22 @@ const anecdotesAtStart = [
 //Action Creators
 
 const voteDispatch = (id) => {
-  dispatch({
+  return {
     type: 'updateVote',
     payload: {
       id: id,
     }
-  })
+  }
 }
 
 const newNoteDispatch = (content) => {
-  dispatch({
+  return {
     type: 'newNote',
     payload: {
       content,
     }
-  })
+  }
 }
-
 
 
 const getId = () => (100000 * Math.random()).toFixed(0)
