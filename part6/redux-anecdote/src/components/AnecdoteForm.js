@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import { newNote } from '../features/reducers/anecdoteReducer';
 import { useState } from 'react';
+import { newMessage, removeMessage } from '../features/reducers/notificationReducer';
 
 const AnecdoteForm = () => {
 
@@ -11,6 +12,14 @@ const AnecdoteForm = () => {
   const newNoteExternal = (event) => {
     event.preventDefault();
     dispatch(newNote(content));
+    dispatch(newMessage(`You create a new note ${content}`))
+    handleNotification();
+  }
+
+  const handleNotification = () => {
+    setTimeout(() => {
+      dispatch(removeMessage([]))
+    }, 5000)
   }
 
 

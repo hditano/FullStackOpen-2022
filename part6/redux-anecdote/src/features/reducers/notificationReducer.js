@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = [
-  'This is a test message',
+  ''
 ]
 
 const notificationSlice = createSlice({
@@ -10,20 +10,26 @@ const notificationSlice = createSlice({
   reducers: {
     newMessage: {
       reducer(state, action) {
-        return state;
+        const { content } = action.payload
+        state[0] = content
       },
-      producer(message) {
+      prepare(content) {
         return {
           payload: {
-            message,
+            content,
           }
         }
+      }
+    },
+    removeMessage: {
+      reducer(state, action) {
+        Object.assign(state, initialState)
       }
     }
   }
 })
 
 
-export const { newMessage } = notificationSlice.actions;
+export const { newMessage, removeMessage } = notificationSlice.actions;
 
 export default notificationSlice.reducer;

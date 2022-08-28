@@ -28,7 +28,7 @@ const AnecdoteSlice = createSlice({
     newNote: {
       reducer(state, action) {
         const newNote = {
-          content: action.payload,
+          content: action.payload.content,
           id: getId(),
           votes: 0
         }
@@ -44,7 +44,6 @@ const AnecdoteSlice = createSlice({
     },
     updateVote: {
       reducer(state, action) {
-        console.log(action.payload)
         const { id } = action.payload
         const currentNote = state.find(note => note.id === id)
         if (currentNote) {
