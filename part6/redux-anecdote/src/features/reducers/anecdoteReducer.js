@@ -1,3 +1,5 @@
+import { createSlice } from '@reduxjs/toolkit';
+
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -6,28 +8,6 @@ const anecdotesAtStart = [
   'Premature optimization is the root of all evil.',
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
-
-
-//Action Creators
-
-const voteDispatch = (id) => {
-  return {
-    type: 'updateVote',
-    payload: {
-      id: id,
-    }
-  }
-}
-
-const newNoteDispatch = (content) => {
-  return {
-    type: 'newNote',
-    payload: {
-      content,
-    }
-  }
-}
-
 
 const getId = () => (100000 * Math.random()).toFixed(0)
 
@@ -41,29 +21,40 @@ const asObject = (anecdote) => {
 
 const initialState = anecdotesAtStart.map(asObject)
 
-const reducer = (state = initialState, action) => {
-  console.log('state now: ', state)
-  console.log('action', action)
-  switch (action.type) {
-    case 'updateVote':
-      const { id } = action.payload;
-      return state.map(ele => ele.id === id ? { ...ele, votes: ele.votes + 1 } : ele)
-    case 'newNote':
-      const { content } = action.payload
-      const newNote = {
-        content: content,
-        id: getId(),
-        votes: 0
+const AnecdoteSlice = createSlice({
+  name: 'anecdotes',
+  initialState,
+  reducers: {
+    newNote: {
+      reducer(state, action) {
+        state.push(action.payload)
+      },
+      producer(content) {
+        return {
+          payload: {
+            content,
+          }
+        }
       }
-      return [...state, newNote]
-    default:
-      return state
+    },
+    updateVote: {
+      reducer(state, action) {
+        return state
+      },
+      producer(id) {
+        return {
+          payload: {
+            id,
+          }
+        }
+      }
+    }
   }
-}
+})
 
-export {
-  voteDispatch,
-  newNoteDispatch
-}
 
-export default reducer
+export const { newNote, updateVote } = AnecdoteSlice.actions;
+
+export const SelectAllAnecdotes = (state) => state.anecdotes;
+
+export default AnecdoteSlice.reducer;

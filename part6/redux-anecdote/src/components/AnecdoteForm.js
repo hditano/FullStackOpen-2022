@@ -1,15 +1,15 @@
 import { useDispatch } from "react-redux";
-import { newNoteDispatch } from '../reducers/anecdoteReducer';
+import { newNote } from '../features/reducers/anecdoteReducer';
 
 const AnecdoteForm = () => {
 
   const dispatch = useDispatch();
 
-  const newNote = (event) => {
+  const newNoteExternal = (event) => {
     event.preventDefault();
     const content = event.target.note.value
     event.target.note.value = ''
-    dispatch(newNoteDispatch(content));
+    dispatch(newNote(content));
   }
 
 
@@ -17,7 +17,7 @@ const AnecdoteForm = () => {
     <>
       <div>
         <h2>Create new</h2>
-        <form onSubmit={newNote}>
+        <form onSubmit={newNoteExternal}>
           <div><input name='note' /></div>
           <button >create</button>
         </form>
