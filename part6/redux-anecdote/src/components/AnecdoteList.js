@@ -6,7 +6,6 @@ const AnecdoteList = () => {
   const anecdotes = useSelector(SelectAllAnecdotes);
   const dispatch = useDispatch();
 
-
   return (
     <div>
       {
