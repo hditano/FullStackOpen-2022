@@ -34,7 +34,7 @@ const AnecdoteSlice = createSlice({
         }
         state.push(newNote)
       },
-      producer(content) {
+      prepare(content) {
         return {
           payload: {
             content,
@@ -45,19 +45,20 @@ const AnecdoteSlice = createSlice({
     updateVote: {
       reducer(state, action) {
         console.log(action.payload)
-        const currentNote = state.find(note => note.id === action.payload)
+        const { id } = action.payload
+        const currentNote = state.find(note => note.id === id)
         if (currentNote) {
           currentNote.votes += 1;
         }
+      },
+      prepare(id) {
+        return {
+          payload: {
+            id,
+          }
+        }
       }
-    }
-  },
-  producer(noteId) {
-    return {
-      payload: {
-        noteId,
-      }
-    }
+    },
   }
 })
 
