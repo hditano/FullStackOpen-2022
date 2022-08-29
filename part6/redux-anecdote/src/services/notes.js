@@ -7,5 +7,11 @@ const getAll = async () => {
   return response.data
 }
 
+const postNote = async (content) => {
+  const object = { content };
+  const response = await Axios.post(baseURL, object);
+  return response.data
+}
 
-export default { getAll };
+
+export default { getAll, postNote };
