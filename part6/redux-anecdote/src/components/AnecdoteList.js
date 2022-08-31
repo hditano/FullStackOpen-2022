@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { SelectAllAnecdotes } from '../features/reducers/anecdoteReducer';
 import { SelectAllFilters } from '../features/reducers/filterReducer';
 import { updateVote } from '../features/reducers/anecdoteReducer'
-import { newMessage, removeMessage } from '../features/reducers/notificationReducer';
+import { newMessage, removeMessage, setupNotification } from '../features/reducers/notificationReducer';
 
 const AnecdoteList = () => {
   const anecdotes = useSelector(SelectAllAnecdotes);
@@ -12,12 +12,8 @@ const AnecdoteList = () => {
 
   const handleNotification = (id, content) => {
     dispatch(updateVote(id));
-    dispatch(newMessage(`You liked note "${content}"`));
-    setTimeout(() => {
-      dispatch(removeMessage());
-    }, 5000)
+    dispatch(setupNotification(`You voted ${content}`, 5));
   }
-
 
   const handleList = () => {
     if (filter === '') {
