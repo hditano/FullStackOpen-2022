@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { SelectAllAnecdotes } from '../features/reducers/anecdoteReducer';
 import { SelectAllFilters } from '../features/reducers/filterReducer';
 import { updateVote } from '../features/reducers/anecdoteReducer'
-import { newMessage, removeMessage, setupNotification } from '../features/reducers/notificationReducer';
+import { setupNotification } from '../features/reducers/notificationReducer';
 
 const AnecdoteList = () => {
   const anecdotes = useSelector(SelectAllAnecdotes);
