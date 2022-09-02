@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Routes, Route, Link, useMatch } from 'react-router-dom';
+import { useEffect, useState } from 'react'
+import { Routes, Route, Link, useMatch, useNavigate } from 'react-router-dom';
 
 const Menu = () => {
   const padding = {
@@ -106,7 +106,17 @@ const CreateNew = (props) => {
 
 }
 
+const Notification = ({ notification }) => {
+  return (
+    <>
+      <p>{notification}</p>
+    </>
+  )
+}
+
 const App = () => {
+
+  let Navigate = useNavigate();
   const [anecdotes, setAnecdotes] = useState([
     {
       content: 'If it hurts, do it more often',
@@ -126,9 +136,21 @@ const App = () => {
 
   const [notification, setNotification] = useState('')
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setNotification(null);
+    }, 5000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [notification])
+
+
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
     setAnecdotes(anecdotes.concat(anecdote))
+    Navigate('/anecdotes');
+    setNotification(`A new anecdote has been added ${anecdote.content}`)
   }
 
   //  const anecdoteById = (id) =>
@@ -159,7 +181,7 @@ const App = () => {
         <Route path='/create' element={<CreateNew addNew={addNew} />} />
         <Route path='/about' element={<About />} />
       </Routes>
-
+      {notification ? <Notification notification={notification} /> : ''}
       <Footer />
     </div>
   )
