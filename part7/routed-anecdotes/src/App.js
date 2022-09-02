@@ -1,44 +1,48 @@
 import { useState } from 'react'
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link, useMatch } from 'react-router-dom';
 
-const Menu = ({ anecdotes, addNew }) => {
+const Menu = () => {
   const padding = {
     paddingRight: 5
   }
+
+
   return (
 
-    <BrowserRouter>
-      <div>
-        <Link style={padding} to='/'>anecdotes</Link>
-        <Link style={padding} to='/about'>about</Link>
-        <Link style={padding} to='/create'>create new note</Link>
-      </div>
+    <div>
+      <Link style={padding} to='/anecdotes'>anecdotes</Link>
+      <Link style={padding} to='/about'>about</Link>
+      <Link style={padding} to='/create'>create new note</Link>
+    </div>
 
 
-      <Routes>
-        <Route path='/' element={<AnecdoteList anecdotes={anecdotes} />} />
-        <Route path='/create' element={<CreateNew addNew={addNew} />} />
-        <Route path='/about' element={<About />} />
-      </Routes>
-
-    </BrowserRouter>
+  )
+}
 
 
-    // <div>
-    //   <a href='#' style={padding}>anecdotes</a>
-    //   <a href='#' style={padding}>create new</a>
-    //   <a href='#' style={padding}>about</a>
-    // </div>
+const AnecdoteId = ({ anecdoteId }) => {
+
+  return (
+    <>
+      <p>Author: {anecdoteId.author}</p>
+      <p>Info: {anecdoteId.info}</p>
+      <p>Vote: {anecdoteId.votes}</p>
+    </>
   )
 }
 
 const AnecdoteList = ({ anecdotes }) => (
-  <div>
+  < div >
+    {console.log(anecdotes)}
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >{anecdote.content}</li>)}
+      {anecdotes.map(ele => {
+        return <li key={ele.id}>
+          <Link to={`/anecdotes/${ele.id}`}>{ele.content}</Link>
+        </li>
+      })}
     </ul>
-  </div>
+  </div >
 )
 
 const About = () => (
@@ -127,24 +131,35 @@ const App = () => {
     setAnecdotes(anecdotes.concat(anecdote))
   }
 
-  const anecdoteById = (id) =>
-    anecdotes.find(a => a.id === id)
+  //  const anecdoteById = (id) =>
+  //    anecdotes.find(a => a.id === id)
+  //
+  //  const vote = (id) => {
+  //    const anecdote = anecdoteById(id)
+  //
+  //    const voted = {
+  //      ...anecdote,
+  //      votes: anecdote.votes + 1
+  //    }
+  //
+  //    setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
+  //  }
 
-  const vote = (id) => {
-    const anecdote = anecdoteById(id)
+  const match = useMatch('/anecdotes/:id');
+  const anecdoteId = match ? anecdotes.find(anecdote => anecdote.id === Number(match.params.id)) : null;
 
-    const voted = {
-      ...anecdote,
-      votes: anecdote.votes + 1
-    }
-
-    setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
-  }
 
   return (
     <div>
+      <Menu />
       <h1>Software anecdotes</h1>
-      <Menu anecdotes={anecdotes} />
+      <Routes>
+        <Route path='/anecdotes/:id' element={<AnecdoteId anecdoteId={anecdoteId} />} />
+        <Route path='/anecdotes' element={<AnecdoteList anecdotes={anecdotes} />} />
+        <Route path='/create' element={<CreateNew addNew={addNew} />} />
+        <Route path='/about' element={<About />} />
+      </Routes>
+
       <Footer />
     </div>
   )
