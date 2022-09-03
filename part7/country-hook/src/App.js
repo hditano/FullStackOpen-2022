@@ -22,10 +22,11 @@ const useCountry = (name) => {
 
   useEffect(() => {
     if (name) {
-      axios.get(URL)
-        .then((response) => {
-          setCountry(response.data[0])
-        })
+      const fetchData = async () => {
+        const response = await axios.get(URL);
+        setCountry(response.data[0])
+      }
+      fetchData()
     }
   }, [name])
 
