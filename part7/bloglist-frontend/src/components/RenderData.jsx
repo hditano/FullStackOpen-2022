@@ -26,23 +26,28 @@ const RenderData = ({ data, handleLikes, handleRemove }) => {
   }
 
   return (
-    <div >
-      {console.log(data)}
-      <h5 id="title">Title: {data[1].title}</h5>
-      <Togglabel buttonLabel='show'>
-        <div style={style.div}>
-          <h3 id="title">Title: {data[1].title}</h3>
-          <p id="author">Author: {data[1].author}</p>
-          <p id="url">URL: {data[1].url}</p>
-          <p id="likes">Likes: {data[1].likes}</p>
-          <button id="like-button" style={style.button} onClick={() => handleLikes(data[1]._id, data[1].likes)}>Like</button>
-          <button id="remove-button" style={style.button} onClick={() => handleRemove(data[1]._id)}>Remove</button>
-        </div>
-      </Togglabel>
+    <div>
+      {Object.values(data[1]).map((ele) => {
+        return (
+          <>
+          <h5 id='title'>Title: {ele.title}</h5>
+          <Togglabel buttonLabel='show'>
+            <div style={style.div}>
+              <h3 id="title">Title: {ele.title}</h3>
+              <p id="author">Author: {ele.author}</p>
+              <p id="url">URL: {ele.url}</p>
+              <p id="likes">Likes: {ele.likes}</p>
+              <button id="like-button" style={style.button} onClick={() => handleLikes(ele._id, ele.likes)}>Like</button>
+              <button id="remove-button" style={style.button} onClick={() => handleRemove(ele._id)}>Remove</button>
+            </div>
+          </Togglabel>
+          </>
+        )
+      })}
     </div>
   )
-
 }
+
 
 export default RenderData
 

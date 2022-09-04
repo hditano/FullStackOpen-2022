@@ -101,7 +101,6 @@ function App() {
           </form>}
       </div>
       <div>
-        {console.log(blog.map(ele => ele))}
         {user && Object.entries(blog).map(ele => <RenderData handleRemove={handleRemove} handleLikes={handleLikes} data={ele} />)}
         <Togglabel buttonLabel='Create'>
           {user && <CreateForm handleBlog={handleData} />}
