@@ -27,6 +27,7 @@ const RenderData = ({ data, handleLikes, handleRemove }) => {
 
   return (
     <div >
+      {console.log(data)}
       <h5 id="title">Title: {data[1].title}</h5>
       <Togglabel buttonLabel='show'>
         <div style={style.div}>

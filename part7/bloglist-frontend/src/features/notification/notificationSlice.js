@@ -7,7 +7,6 @@ export const notificationSlice = createSlice({
     setNotificationSuccess: {
       reducer(state, action) {
         if (action.payload.type === 'success') {
-          console.log(current(state))
           return action.payload;
         }
         return state;

@@ -5,24 +5,25 @@ import CreateForm from './components/CreateForm';
 import Notifications from './components/Notifications';
 import Togglabel from './components/Togglabel';
 import { setNotificationSuccess, setNotificationError, setNotificationRemove } from './features/notification/notificationSlice';
+import { setBlog } from './features/notification/blogSlice';
 import { useDispatch, useSelector } from 'react-redux';
+
 
 function App() {
 
 
   const dispatch = useDispatch();
   const notification = useSelector(state => state.notification)
-
+  const blog = useSelector(state => state.blogs)
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [blog, setBlog] = useState([]);
   const [user, setUser] = useState(null);
   const [update, setUpdate] = useState(null);
 
 
   useEffect(() => {
-    loginServices.getBlogs().then((response) => setBlog(response));
+    loginServices.getBlogs().then((response) => dispatch(setBlog(response)));
   }, [update])
 
   useEffect(() => {
@@ -30,7 +31,6 @@ function App() {
     if (loggedUser) {
       const response = JSON.parse(loggedUser)
       setUser(response);
-      setBlog(response);
       dispatch(setNotificationSuccess(`Welcome ${response.username}`, 'success'))
       loginServices.setToken(response.token)
     }
@@ -60,12 +60,9 @@ function App() {
   }
 
   const handleData = (data) => {
-    setBlog(data);
+    dispatch(setBlog(data));
+    console.log(data)
     loginServices.createBlog(data);
-    //setNotification({
-    //  message: `Blog ${data.title} by ${data.author}`,
-    //  type: 'success'
-    //});
     dispatch(setNotificationSuccess(`Blog ${data.title} by ${data.author}`, 'success'))
     setUpdate(Math.floor(Math.random() * 100));
   }
@@ -104,6 +101,7 @@ function App() {
           </form>}
       </div>
       <div>
+        {console.log(blog.map(ele => ele))}
         {user && Object.entries(blog).map(ele => <RenderData handleRemove={handleRemove} handleLikes={handleLikes} data={ele} />)}
         <Togglabel buttonLabel='Create'>
           {user && <CreateForm handleBlog={handleData} />}
