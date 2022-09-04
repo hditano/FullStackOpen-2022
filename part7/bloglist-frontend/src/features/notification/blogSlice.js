@@ -9,6 +9,11 @@ const blogSlice = createSlice({
         state.push(action.payload);
         console.log(action.payload)
       }
+    },
+    setRemove: {
+      reducer(state, action){
+        return state = [];
+      }
     }
   },
 
@@ -16,6 +21,6 @@ const blogSlice = createSlice({
 )
 
 
-export const { setBlog } = blogSlice.actions;
+export const { setBlog, setRemove } = blogSlice.actions;
 
 export default blogSlice.reducer;

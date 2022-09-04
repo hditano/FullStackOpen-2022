@@ -5,7 +5,7 @@ import CreateForm from './components/CreateForm';
 import Notifications from './components/Notifications';
 import Togglabel from './components/Togglabel';
 import { setNotificationSuccess, setNotificationError, setNotificationRemove } from './features/notification/notificationSlice';
-import { setBlog } from './features/notification/blogSlice';
+import { setBlog, setRemove } from './features/notification/blogSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 
@@ -72,6 +72,7 @@ function App() {
       id: id,
       likes: likes + 1,
     });
+    dispatch(setRemove());
     setUpdate(Math.floor(Math.random() * 100));
   }
 
@@ -81,6 +82,7 @@ function App() {
     await loginServices.removeBlog({
       id: id,
     })
+    dispatch(setRemove());
     setUpdate(Math.floor(Math.random() * 100));
   }
 
