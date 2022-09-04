@@ -10,7 +10,6 @@ const setToken = (newToken) => {
 
 const getBlogs = async () => {
   const blog = await axios.get(`${URI}/api/blog`);
-  console.log(blog)
   return blog.data;
 }
 
