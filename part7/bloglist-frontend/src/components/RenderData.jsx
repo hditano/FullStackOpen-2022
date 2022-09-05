@@ -32,7 +32,7 @@ const RenderData = ({ data, handleLikes, handleRemove }) => {
           <>
           <h5 id='title'>Title: {ele.title}</h5>
           <Togglabel buttonLabel='show'>
-            <div style={style.div}>
+            <div style={style.div} key={ele.id}>
               <h3 id="title">Title: {ele.title}</h3>
               <p id="author">Author: {ele.author}</p>
               <p id="url">URL: {ele.url}</p>

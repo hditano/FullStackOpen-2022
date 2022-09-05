@@ -6,6 +6,7 @@ import Notifications from './components/Notifications';
 import Togglabel from './components/Togglabel';
 import { setNotificationSuccess, setNotificationError, setNotificationRemove } from './features/notification/notificationSlice';
 import { setBlog, setRemove } from './features/notification/blogSlice';
+import { setUser, removeUser } from './features/notification/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 
@@ -13,12 +14,12 @@ function App() {
 
 
   const dispatch = useDispatch();
-  const notification = useSelector(state => state.notification)
-  const blog = useSelector(state => state.blogs)
+  const notification = useSelector(state => state.notification);
+  const blog = useSelector(state => state.blogs);
+  const user = useSelector(state => state.user);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [user, setUser] = useState(null);
   const [update, setUpdate] = useState(null);
 
 
@@ -30,11 +31,12 @@ function App() {
     const loggedUser = window.localStorage.getItem('username')
     if (loggedUser) {
       const response = JSON.parse(loggedUser)
-      setUser(response);
+      dispatch(setUser(response));
       dispatch(setNotificationSuccess(`Welcome ${response.username}`, 'success'))
       loginServices.setToken(response.token)
     }
   }, [])
+
 
 
   const handleLogin = async (e) => {
@@ -42,7 +44,8 @@ function App() {
     try {
       const response = await loginServices.userLogin({ username, password });
       window.localStorage.setItem('username', JSON.stringify(response.data));
-      setUser(response);
+      console.log(response)
+      dispatch(setUser(response));
       dispatch(setNotificationSuccess(`Welcome ${response.data.username}`, 'success'))
       loginServices.setToken(response.data);
     } catch (error) {
@@ -53,7 +56,7 @@ function App() {
   const logoutLogin = (e) => {
     e.preventDefault();
     loginServices.logOut();
-    setUser(null);
+    dispatch(removeUser(''));
     setUsername('');
     setPassword('');
     dispatch(setNotificationRemove());
@@ -90,7 +93,7 @@ function App() {
     <div>
       <div>
         <Notifications message={notification} />
-        {user && <button name='logout_bt' onClick={logoutLogin} >Logout</button>}
+        {<button name='logout_bt' onClick={logoutLogin} >Logout</button>}
         {!user &&
           <form onSubmit={handleLogin}>
             <p>Login</p>

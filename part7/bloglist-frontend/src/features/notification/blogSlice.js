@@ -7,7 +7,6 @@ const blogSlice = createSlice({
     setBlog: {
       reducer(state, action) {
         state.push(action.payload);
-        console.log(action.payload)
       }
     },
     setRemove: {
