@@ -89,6 +89,12 @@ function App() {
     setUpdate(Math.floor(Math.random() * 100));
   }
 
+  const getUsers = async () => {
+    const response = await loginServices.getAllUsers();
+    const result = response.map(ele => ele.username);
+    console.log(result);
+  }
+
   return (
     <div>
       <div>
@@ -97,6 +103,7 @@ function App() {
         {!user &&
           <form onSubmit={handleLogin}>
             <p>Login</p>
+            <button onClick={() => getUsers()}>GetUsers</button>
             <input id="loginUsername" type='text' name='username' value={username} onChange={({ target }) => setUsername(target.value)} />
             <label>Username</label>
             <input id="loginPassword" type='text' name='password' value={password} onChange={({ target }) => setPassword(target.value)} />

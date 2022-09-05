@@ -8,6 +8,11 @@ const setToken = (newToken) => {
   token = `bearer ${newToken.token}`;
 }
 
+const getAllUsers = async () => {
+  const response = await axios.get(`${URI}/api/user`);
+  return response.data
+}
+
 const getBlogs = async () => {
   const blog = await axios.get(`${URI}/api/blog`);
   return blog.data;
@@ -63,6 +68,7 @@ const logger = (value) => {
 
 export default {
   getBlogs,
+  getAllUsers,
   updateBlog,
   userLogin,
   removeBlog,

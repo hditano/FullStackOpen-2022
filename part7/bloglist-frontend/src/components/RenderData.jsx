@@ -1,4 +1,5 @@
 import Togglabel from '../components/Togglabel';
+import AllUsers from './AllUsers';
 import PropTypes from 'prop-types';
 
 const RenderData = ({ data, handleLikes, handleRemove }) => {
@@ -44,6 +45,7 @@ const RenderData = ({ data, handleLikes, handleRemove }) => {
           </>
         )
       })}
+      <AllUsers />
     </div>
   )
 }
