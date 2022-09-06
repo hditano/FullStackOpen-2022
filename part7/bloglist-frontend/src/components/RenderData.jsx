@@ -25,6 +25,7 @@ const RenderData = ({ data, handleLikes, handleRemove }) => {
     }
 
   }
+  
 
   return (
     <div>

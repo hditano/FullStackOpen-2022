@@ -3,11 +3,15 @@ import { useEffect } from 'react';
 import loginServices from '../services/Login';
 import {setList, getData} from '../features/notification/allUsersSlice';
 import {useSelector, useDispatch} from 'react-redux';
+import {useParams} from 'react-router-dom';
 
 function AllUsers() {
 
     const dispatch = useDispatch();
     const allUser = useSelector(state => state.allusers);
+
+    const id = useParams().id;
+    const userDetails = allUser.find(ele => ele._id === id)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -31,20 +35,9 @@ function AllUsers() {
     }
 
   return (
-    <table>
-        <tr>
-            <th>Username</th>
-            <th>Blogs Created</th>
-        </tr>
-        {allUser && allUser.map((ele) => {
-            return (
-                <tr>
-                    <td>{ele.username}</td>
-                    <td>{ele.blogs.length}</td>
-                </tr>
-            )
-        })}
-    </table>
+    <>
+    {console.log(allUser)}
+    </>
   )
 }
 

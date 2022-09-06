@@ -8,6 +8,9 @@ import { setNotificationSuccess, setNotificationError, setNotificationRemove } f
 import { setBlog, setRemove } from './features/notification/blogSlice';
 import { setUser, removeUser } from './features/notification/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { Route, Routes } from 'react-router-dom';
+import AllUsers from './components/AllUsers';
+import { UserDetails } from './components/UserDetails';
 
 
 function App() {
@@ -118,6 +121,10 @@ function App() {
           {user && <CreateForm handleBlog={handleData} />}
         </Togglabel>
       </div>
+      <Routes>
+        <Route path='/users' element={<AllUsers />}/>
+        <Route path='/users/:id' element={<UserDetails />} />
+      </Routes>
     </div>
   )
 }
