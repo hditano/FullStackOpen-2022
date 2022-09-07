@@ -114,6 +114,8 @@ const typeDefs = gql`
     authorCount: Int!
     AllBooks: [Books!]!
     AllAuthors: [Author!]!
+    findPerson(name: String!) : Author
+    findAuthor(author: String!): [Books!]!
   }
 `
 
@@ -123,11 +125,21 @@ const resolvers = {
     authorCount: () => authors.length,
     AllBooks: () => books,
     AllAuthors: () => authors, 
+    findPerson: (root, args) => {
+        const {name} = args;
+        return authors.find(person => person.name === name);
+    },
+    findAuthor: (root, args) => {
+        return args.author
+            ? books.filter((book) => book.author === args.author)
+            : books;
+    }
   },
   Author: {
     bookCount: (root) => books.filter((book) => book.author === root.name).length,
-  },
-};
+    },
+  }
+
 
 const server = new ApolloServer({
   typeDefs,
