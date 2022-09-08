@@ -116,6 +116,16 @@ const typeDefs = gql`
     AllAuthors: [Author!]!
     findPerson(name: String!) : Author
     findAuthor(genre: String): [Books!]!
+    findByYear(published: String!): [Books!]!
+  }
+
+  type Mutation {
+    addBook (
+      title: String!
+      author: String
+      published: Int!
+      genres: [String!]!
+    ) : Books
   }
 `
 
@@ -131,6 +141,16 @@ const resolvers = {
     },
     findAuthor: (root, args) => {
         return books.filter((book) => book.genres.includes(args.genre))
+    },
+    findByYear: (root, args) => {
+        return books.filter((book) => book.published > args.published);
+    }
+  },
+  Mutation: {
+    addBook: (root, args) => {
+      const book = {...args}
+      books = books.concat(book)
+      return book;
     }
   },
   Author: {
