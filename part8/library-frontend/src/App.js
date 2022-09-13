@@ -16,15 +16,16 @@ query {
 }
 `
 
-
-
 const App = () => {
   const [page, setPage] = useState('authors')
 
 
-  const all_authors = useQuery(ALL_AUTHORS);
+  const {data, error, loading} = useQuery(ALL_AUTHORS);
+  if(loading) {
+    return <div>loading...</div>
+  }
 
-  console.log(all_authors);
+  console.log(data.AllAuthors);
 
   return (
     <div>
@@ -34,7 +35,7 @@ const App = () => {
         <button onClick={() => setPage('add')}>add book</button>
       </div>
 
-      <Authors show={page === 'authors'} />
+      <Authors authors={data.AllAuthors} show={page === 'authors'} />
 
       <Books show={page === 'books'} />
 
