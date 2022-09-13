@@ -157,7 +157,12 @@ const resolvers = {
       console.log(books.map(ele => ele.id));
       return books;
     },
-    AllAuthors: () => authors,
+    AllAuthors:() =>  {
+      return authors.map((author) => {
+        const bookCount = books.reduce((a, book) => (book.author === author.name ? a + 1 : a),0)
+        return {...author, bookCount};
+      })
+    },
     findPerson: (root, args) => {
         const {name} = args;
         return authors.find(person => person.name === name);
