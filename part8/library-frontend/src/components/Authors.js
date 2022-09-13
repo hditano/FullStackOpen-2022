@@ -4,7 +4,6 @@ const Authors = (props) => {
   }
 
 
-  console.log(props.authors)
 
   return (
     <div>
