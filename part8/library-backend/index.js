@@ -1,4 +1,5 @@
-const { ApolloServer, gql } = require('apollo-server')
+const { ApolloServer, gql } = require('apollo-server');
+const axios = require('axios');
 
 let authors = [
   {
@@ -94,11 +95,14 @@ let books = [
 
 const typeDefs = gql`
 
+  type nameAuthor {
+    author: String!
+  }
+
   type Books {
     title: String!
     published: Int!
-    author: String!
-    id: ID!
+    specialInfo: nameAuthor!
     genres: [String!]!
   }
 
@@ -109,6 +113,16 @@ const typeDefs = gql`
     bookCount: Int
   }
 
+  type Memes {
+    id: String!
+    name: String!
+    url: String!
+    width: Int!
+    height: Int!
+    box_count: Int!
+  }
+
+
   type Query {
     bookCount: Int!
     authorCount: Int!
@@ -117,6 +131,7 @@ const typeDefs = gql`
     findPerson(name: String!) : Author
     findAuthor(genre: String): [Books!]!
     findByYear(published: String!): [Books!]!
+    GetMemes: [Memes]!
   }
 
   type Mutation {
@@ -127,6 +142,10 @@ const typeDefs = gql`
       genres: [String!]!
     ) : Books
     editAuthor(name: String!, born: Int!) : Author
+    editTitle(
+      id: ID!
+      title: String!
+    ): Books
   }
 `
 
@@ -134,7 +153,10 @@ const resolvers = {
   Query: {
     bookCount: () => books.length,
     authorCount: () => authors.length,
-    AllBooks: () => books,
+    AllBooks: () => {
+      console.log(books.map(ele => ele.id));
+      return books;
+    },
     AllAuthors: () => authors,
     findPerson: (root, args) => {
         const {name} = args;
@@ -145,6 +167,10 @@ const resolvers = {
     },
     findByYear: (root, args) => {
         return books.filter((book) => book.published > args.published);
+    },
+    GetMemes: async (root, args) => {
+      const {data: {data}} = await axios.get('https://api.imgflip.com/get_memes');
+      return data.memes;
     }
   },
   Mutation: {
@@ -165,6 +191,24 @@ const resolvers = {
       console.log(updateAuthor)
       return updateAuthor;
   },
+  editTitle: (root, args) => {
+    const author = books.find((ele) => ele.id === args.id);
+    if(!author) return null;
+    console.log(author)
+    const updateTitle = {...author, title: args.title};
+    books = books.map((ele) => {
+      return ele.id === updateTitle.id ? updateTitle : ele
+    });
+    return updateTitle
+
+  }
+},
+Books: {
+  specialInfo: (root) => {
+    return {
+      author: root.author,
+    }
+  }
 }
 }
 
