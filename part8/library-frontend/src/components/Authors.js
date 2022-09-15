@@ -46,6 +46,7 @@ const Authors = (props) => {
     setName('');
   }
 
+
   let authors = results.data.AllAuthors;
 
 
@@ -72,7 +73,11 @@ const Authors = (props) => {
         <form onSubmit={handleClick}>
         <h2>Set birthyear</h2>
         <label>Name: </label>
-        <input value={name} type='text' onChange={(e) => setName(e.target.value)}/>
+        <select onChange={(e) => setName(e.target.value)}>
+          {authors.map((ele) => {
+            return <option key={ele.id} value={ele.name}>{ele.name}</option>
+          })}
+        </select>
         <br></br>
         <label>Born: </label>
         <input value={born} type='text' onChange={(e) => setBorn(e.target.value)} />
