@@ -38,7 +38,7 @@ const App = () => {
     return <div>loading...</div>
   }
 
-  console.log(AllBooks.data.AllBooks);
+  console.log(data.AllAuthors);
 
   return (
     <div>
@@ -48,7 +48,7 @@ const App = () => {
         <button onClick={() => setPage('add')}>add book</button>
       </div>
 
-      <Authors authors={data.AllAuthors} show={page === 'authors'} />
+      <Authors show={page === 'authors'} />
 
       <Books books={AllBooks.data.AllBooks} show={page === 'books'} />
 

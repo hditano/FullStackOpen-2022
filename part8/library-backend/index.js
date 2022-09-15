@@ -190,9 +190,7 @@ const resolvers = {
         return null
       };
       const updateAuthor = {...author, born: args.born};
-      authors = authors.map((ele) => {
-      return  ele.name === updateAuthor.name ? updateAuthor : author
-      });
+      authors = authors.map((author) => author.name === updateAuthor.name ? updateAuthor : author);
       console.log(updateAuthor)
       return updateAuthor;
   },

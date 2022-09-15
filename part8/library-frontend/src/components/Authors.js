@@ -1,15 +1,23 @@
 import {useState} from 'react';
-import {useMutation, gql} from '@apollo/client';
+import {useMutation, gql, useQuery} from '@apollo/client';
 
+const ALL_AUTHORS = gql`
+query {
+  AllAuthors {
+    id
+    name
+    born
+    bookCount
+  }
+}
+`
 
 const CHANGE_BORN = gql`
 mutation changeBorn($name: String!, $born: Int!) {
-  editAuthor(
-    name: $name,
-    born: $born,
-  ) {
+  editAuthor(name: $name,born: $born) {
     name
     born
+    bookCount
   }
 }
 `
@@ -19,7 +27,10 @@ const Authors = (props) => {
   const [name, setName] = useState('');
   const [born, setBorn] = useState('');
 
-  const [changeBorn] = useMutation(CHANGE_BORN);
+  const results = useQuery(ALL_AUTHORS);
+  const [changeBorn] = useMutation(CHANGE_BORN, {
+    refetchQueries: [{query: ALL_AUTHORS}],
+  });
 
 
 
@@ -27,7 +38,7 @@ const Authors = (props) => {
     return null
   }
 
-  const handleClick = async (e) => {
+  const handleClick = (e) => {
     e.preventDefault();
     changeBorn({variables: {name, born: parseInt(born)}})
 
@@ -35,6 +46,7 @@ const Authors = (props) => {
     setName('');
   }
 
+  let authors = results.data.AllAuthors;
 
 
   return (
@@ -47,7 +59,7 @@ const Authors = (props) => {
             <th>born</th>
             <th>books</th>
           </tr>
-          {props.authors.map((a) => (
+          {authors.map((a) => (
             <tr key={a.name}>
               <td>{a.name}</td>
               <td>{a.born}</td>
