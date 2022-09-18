@@ -177,8 +177,9 @@ const resolvers = {
       const author = await Author.findOne({name: args.name});
       return author;
     },
-    findAuthor: (root, args) => {
-        return books.filter((book) => book.genres.includes(args.genre))
+    findAuthor: async (root, args) => {
+    let findAuthor = await Book.find({genres: args.genre});
+    return findAuthor;
     },
     findByYear: async (root, args) => {
       const findYear = await Author.find({published: args.published});
@@ -188,6 +189,12 @@ const resolvers = {
       const {data: {data}} = await axios.get('https://api.imgflip.com/get_memes');
       return data.memes;
     }
+  },
+  // Takes bookCount field from type Author, and makes it count each book that is at the database with the same author ID. Everytime Author has to be returned it makes, bookCount is resolved with the info
+  // give on the below resolver
+  Author: {
+    bookCount: async (root) => 
+      await Book.find({author: root.id}).countDocuments(),
   },
   Mutation: {
     addBook: async (root, args) => {
@@ -208,16 +215,15 @@ const resolvers = {
       return editAuthor.save()
 
   },
-  editTitle: (root, args) => {
-    const author = books.find((ele) => ele.id === args.id);
-    if(!author) return null;
-    console.log(author)
-    const updateTitle = {...author, title: args.title};
-    books = books.map((ele) => {
-      return ele.id === updateTitle.id ? updateTitle : ele
-    });
-    return updateTitle
-
+  editTitle: async (root, args) => {
+    let editTitle = await Book.findOneAndUpdate({id: args.id, title: args.title});
+    console.log(editTitle);
+    if(!editTitle) {
+      return null;
+    }
+    await editTitle.save();
+    editTitle = await editTitle.populate('author');
+    return editTitle;
   }
 },
 }
