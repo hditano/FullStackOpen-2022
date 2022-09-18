@@ -1,4 +1,4 @@
-const { ApolloServer, gql } = require('apollo-server');
+const { ApolloServer, gql, UserInputError } = require('apollo-server');
 const axios = require('axios');
 const { default: mongoose } = require('mongoose');
 const Author = require('./schema/Author');
@@ -177,9 +177,9 @@ const resolvers = {
       const author = await Author.findOne({name: args.name});
       return author;
     },
-    findAuthor: async (root, args) => {
-    let findAuthor = await Book.find({genres: args.genre});
-    return findAuthor;
+      findAuthor: async (root, args) => {
+      let findAuthor = await Book.find({genres: args.genre});
+      return findAuthor;
     },
     findByYear: async (root, args) => {
       const findYear = await Author.find({published: args.published});
@@ -202,9 +202,16 @@ const resolvers = {
       if(!author) {
         return null;
       }
-      let book = new Book({...args, author: author.id});
-      await book.save();
-      book = await book.populate('author');
+
+      try {
+        let book = new Book({...args, author: author.id});
+        await book.save();
+        book = await book.populate('author');
+      } catch (error) {
+        throw new UserInputError(errror.message, {
+          invalidArgs: args,
+        })  
+      }
       return book;
     },
     editAuthor: async (root, args) => {
@@ -212,8 +219,15 @@ const resolvers = {
       if(!editAuthor) {
         return null
       };
-      return editAuthor.save()
 
+      try {
+       editAuthor.save()
+      } catch (error) {
+       throw new UserInputError(error.message, {
+        invalidArgs: args,
+       }) 
+      }
+      return editAuthor;
   },
   editTitle: async (root, args) => {
     let editTitle = await Book.findOneAndUpdate({id: args.id, title: args.title});
@@ -221,8 +235,15 @@ const resolvers = {
     if(!editTitle) {
       return null;
     }
+
+    try {
     await editTitle.save();
     editTitle = await editTitle.populate('author');
+    } catch (error) {
+      throw new UserInputError('Malito papu', {
+        invalidArgs: args,
+      })  
+    }
     return editTitle;
   }
 },
