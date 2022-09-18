@@ -169,19 +169,20 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    bookCount: () => books.length,
-    authorCount: () => authors.length,
+    bookCount: async () => Book.collection.countDocuments(),
+    authorCount: async () => Author.collection.countDocuments(),
     AllBooks: async () => Book.find({}),
     AllAuthors: async () => Author.find({}),
-    findPerson: (root, args) => {
-        const {name} = args;
-        return authors.find(person => person.name === name);
+    findPerson: async (root, args) => {
+      const author = await Author.findOne({name: args.name});
+      return author;
     },
     findAuthor: (root, args) => {
         return books.filter((book) => book.genres.includes(args.genre))
     },
-    findByYear: (root, args) => {
-        return books.filter((book) => book.published > args.published);
+    findByYear: async (root, args) => {
+      const findYear = await Author.find({published: args.published});
+      return findYear;
     },
     GetMemes: async (root, args) => {
       const {data: {data}} = await axios.get('https://api.imgflip.com/get_memes');
@@ -190,18 +191,22 @@ const resolvers = {
   },
   Mutation: {
     addBook: async (root, args) => {
-      const newBook = new Book({...args});
-      return newBook.save(); 
-    },
-    editAuthor: (root, args) => {
-      const author = authors.find((a) => a.name === args.name);
+      let author = await Author.findOne({name: args.author})
       if(!author) {
+        return null;
+      }
+      let book = new Book({...args, author: author.id});
+      await book.save();
+      book = await book.populate('author');
+      return book;
+    },
+    editAuthor: async (root, args) => {
+      const editAuthor = await Author.findOneAndUpdate({name: args.name, born: args.born});
+      if(!editAuthor) {
         return null
       };
-      const updateAuthor = {...author, born: args.born};
-      authors = authors.map((author) => author.name === updateAuthor.name ? updateAuthor : author);
-      console.log(updateAuthor)
-      return updateAuthor;
+      return editAuthor.save()
+
   },
   editTitle: (root, args) => {
     const author = books.find((ele) => ele.id === args.id);
