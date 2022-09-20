@@ -20,10 +20,15 @@ const ALL_BOOKS = gql`
 query {
   AllBooks {
     title
-    genres
     published
+    genres
     id
+    author {
+      id
+      name
+      born
     }
+  }
   }
 `
 
@@ -37,7 +42,7 @@ const App = () => {
     return <div>loading...</div>
   }
 
-  console.log(page)
+  console.log(AllBooks.data)
 
   return (
     <div>

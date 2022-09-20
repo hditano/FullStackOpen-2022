@@ -47,6 +47,7 @@ function Books({books, show}) {
       <table>
         <tbody>
           <tr>
+            <th></th>
             <th>Author</th>
             <th>published</th>
           </tr>
@@ -54,6 +55,7 @@ function Books({books, show}) {
             return (
             <tr>
               <td>{a.title}</td>
+              <td>{a.author.name}</td>
               <td>{a.published}</td>
             </tr>
             )
