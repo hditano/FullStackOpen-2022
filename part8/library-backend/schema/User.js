@@ -9,6 +9,9 @@ const schema = new mongoose.Schema({
     favouriteGenre: {
         type: String,
         required: false
+    },
+    _id: {
+        type: mongoose.Schema.Types.ObjectId
     }
 })
 
