@@ -3,35 +3,9 @@ import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 import Login from './components/Login'
+import { ALL_AUTHORS } from './queries/graphql-query'
+import { ALL_BOOKS } from './queries/graphql-query'
 import {gql, useApolloClient, useMutation, useQuery} from '@apollo/client';
-
-
-const ALL_AUTHORS = gql`
-query {
-  AllAuthors {
-    id
-    name
-    born
-    bookCount
-  }
-}
-`
-
-const ALL_BOOKS = gql`
-query {
-  AllBooks {
-    title
-    published
-    genres
-    id
-    author {
-      id
-      name
-      born
-    }
-  }
-  }
-`
 
 
 const App = () => {

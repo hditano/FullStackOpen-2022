@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client';
 import React, { useEffect, useState } from 'react'
-import {LOGIN} from '../queries/login-query';
+import {LOGIN} from '../queries/graphql-query';
 
 function Login({show, setToken}) {
 
