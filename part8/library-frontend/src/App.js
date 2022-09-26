@@ -5,13 +5,20 @@ import NewBook from './components/NewBook'
 import Login from './components/Login'
 import { ALL_AUTHORS } from './queries/graphql-query'
 import { ALL_BOOKS } from './queries/graphql-query'
-import {gql, useApolloClient, useMutation, useQuery} from '@apollo/client';
+import {gql, useApolloClient, useMutation, useQuery, useSubscription} from '@apollo/client';
+import {ADDED_BOOK} from './queries/graphql-query';
 
 
 const App = () => {
   const [page, setPage] = useState('authors');
   const [token, setToken] = useState(null);
   const client = useApolloClient();
+
+  useSubscription(ADDED_BOOK, {
+    onSubscriptionData: ({subscriptionData}) => {
+      console.log(subscriptionData)
+    }
+  })
 
   const AllBooks = useQuery(ALL_BOOKS);
   const {data, error, loading} = useQuery(ALL_AUTHORS, {pollInterval: 2000});
