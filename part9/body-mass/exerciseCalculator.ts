@@ -18,10 +18,12 @@ const exerciseCalculator = (data: number[]): exerciseCalculator => {
     let rating = 0;
     let reached = false;
 
+    //calculates training days
     data.forEach((ele) => {
         if(ele >= 1) trainingDays++;
     })
 
+    // Checks how many hours the user has worked out
     if(totalHours < 14) {
         rating = 1
         ratingDescription = 'You gotta improved asap'
@@ -33,6 +35,7 @@ const exerciseCalculator = (data: number[]): exerciseCalculator => {
         ratingDescription = 'You are amazing!!'
     }
 
+    // Checks if rating has been reached as per metrics
     if(rating >= target) {
         reached = true;
     } else {
