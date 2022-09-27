@@ -2,6 +2,7 @@ import { calculateBmi } from './bmiCalculator';
 import express from 'express';
 const app = express();
 
+
 app.get('/bmi', (req, res) => {
     const {weight, height} = req.query;
     if(weight && height) {
