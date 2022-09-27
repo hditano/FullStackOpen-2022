@@ -1,8 +1,14 @@
+import { calculateBmi } from './bmiCalculator';
 import express from 'express';
 const app = express();
 
-app.get('/ping', (_req, res) => {
-    res.send('Hello Full Stack')
+app.get('/bmi', (req, res) => {
+    const {weight, height} = req.query;
+    if(weight && height) {
+    res.json(calculateBmi(Number(height), Number(weight)))
+    } else {
+        res.json({error: "Malformatted parameters"})
+    }
 })
 
 const PORT = 3003;
