@@ -1,11 +1,28 @@
 interface exerciseCalculator {
-    periodLength: number
-    trainingDays: number
+     periodLength: number
+     trainingDays: number
      target: number
      average: number
      reached: boolean
      rating: number
      ratingDescription: string
+}
+
+interface input {
+    data: number[]
+}
+
+const parsedArguments = (args: Array<string>):input => {
+    if(args.length < 4 ) throw new Error('not enough arguments');
+    if(args.length > 4) throw new Error('too many arguments');
+
+    if(!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
+        return {
+            data: args.map((ar) => Number((ar).slice(3)))
+        }
+    } else {
+        throw new Error('Provided values were not numbers')
+    }
 }
 
 const exerciseCalculator = (data: number[]): exerciseCalculator => {
@@ -54,6 +71,7 @@ const exerciseCalculator = (data: number[]): exerciseCalculator => {
     }
 }
 
-console.log(exerciseCalculator([10,3]));
+const {data} = parsedArguments(process.argv);
+console.log(exerciseCalculator(data));
 
 
