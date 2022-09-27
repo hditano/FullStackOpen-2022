@@ -8,24 +8,24 @@ interface exerciseCalculator {
      ratingDescription: string
 }
 
-interface input {
-    data: number[]
-}
+//interface input {
+//    data: number[]
+//}
 
-const parsedArguments = (args: Array<string>):input => {
-    if(args.length < 4 ) throw new Error('not enough arguments');
-    if(args.length > 4) throw new Error('too many arguments');
+//const parsedArguments = (args: Array<string>):input => {
+//    if(args.length < 4 ) throw new Error('not enough arguments');
+//    if(args.length > 4) throw new Error('too many arguments');
+//
+//    if(!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
+//        return {
+//            data: args.map((ar) => Number((ar).slice(3)))
+//        }
+//    } else {
+//        throw new Error('Provided values were not numbers')
+//    }
+//}
 
-    if(!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
-        return {
-            data: args.map((ar) => Number((ar).slice(3)))
-        }
-    } else {
-        throw new Error('Provided values were not numbers')
-    }
-}
-
-const exerciseCalculator = (data: number[]): exerciseCalculator => {
+export const exerciseCalculator = (data: number[]): exerciseCalculator => {
     let periodLength = data.length;
     let trainingDays = 0;
     let totalHours = data.reduce((prev, curr) => prev + curr, 0);
@@ -71,7 +71,7 @@ const exerciseCalculator = (data: number[]): exerciseCalculator => {
     }
 }
 
-const {data} = parsedArguments(process.argv);
-console.log(exerciseCalculator(data));
+//const {data} = parsedArguments(process.argv);
+//console.log(exerciseCalculator(data));
 
 
