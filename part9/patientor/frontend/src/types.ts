@@ -18,3 +18,9 @@ export interface Patient {
   ssn?: string;
   dateOfBirth?: string;
 }
+
+export interface Diagnose {
+  code: string;
+  name: string;
+  latin?: string;
+}
