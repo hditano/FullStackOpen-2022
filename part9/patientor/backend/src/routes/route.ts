@@ -7,4 +7,8 @@ router.get('/ping', (_req, res) => {
     res.send(patientServices.getEntries());
 });
 
+router.get('/patients', (_req, res) => {
+    res.send(patientServices.getPatients())
+})
+
 export default router;
