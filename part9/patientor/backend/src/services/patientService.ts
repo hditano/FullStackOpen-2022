@@ -7,7 +7,7 @@ const getEntries = () => {
 }
 
 const getPatients = (): PatientsEntry[] => {
-    return patients.map(({id, name, dateOfBirth, gender, occupation}) => ({
+    return patients.map(({id, name, dateOfBirth, gender , occupation}) => ({
         id,
         name,
         dateOfBirth,
