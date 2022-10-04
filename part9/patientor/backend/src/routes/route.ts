@@ -8,7 +8,18 @@ router.get('/ping', (_req, res) => {
 });
 
 router.get('/patients', (_req, res) => {
-    res.send(patientServices.getPatients())
+    res.send(patientServices.getPatients());
+})
+
+router.post('/patients', (req, res) => {
+    const {name, dateOfBirth, gender, occupation} = req.body;
+    const newPatientEntry = patientServices.postPatients({
+        name,
+        dateOfBirth,
+        gender,
+        occupation
+    });
+    res.json(newPatientEntry);
 })
 
 export default router;

@@ -1,4 +1,4 @@
-interface Patients {
+export interface Patients {
     id: string;
     name: string;
     dateOfBirth: string;
@@ -8,3 +8,4 @@ interface Patients {
 }
 
 export type PatientsEntry = Omit<Patients, "ssn">;
+export type NewPatient = Omit<Patients, 'id'>;
